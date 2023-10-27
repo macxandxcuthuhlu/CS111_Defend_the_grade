@@ -1,0 +1,15 @@
+def make_filename1(str1):
+    str2 = ''
+    file_name = ''
+    for i in str1:
+        if str2 == '':
+            i = str(i).upper()
+        str2 += str(i)
+    list1 = str2.split()
+    for i in list1:
+        file_name += '_' + i
+    return file_name
+
+str1 = 'sTi si s 678 s d d '
+file_name = make_filename1(str1)
+print(file_name)

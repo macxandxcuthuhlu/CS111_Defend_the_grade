@@ -33,3 +33,10 @@ print(lista)
 
 d = lista[:]
 print(d)
+
+with open('random.txt') as my_file:
+    list = my_file.readlins()
+    print(list)
+    
+    
+    

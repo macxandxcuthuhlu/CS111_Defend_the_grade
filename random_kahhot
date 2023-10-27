@@ -3,3 +3,22 @@ b = False
 c = True
 d = False
 print(not a or not c)
+
+set = {1,2,3}
+set.add(1)
+set.add(3)
+print(len(set))
+
+menu = {
+	"taco": 3.5,
+	"burrito": 9,
+	"torta": 7.75,
+	"horchata": 2.75,
+	"tostada": 4
+}
+ 
+list = []
+for i in menu:
+    list.append(menu[i])
+cost = items[1] + items[2]
+print(cost)

@@ -1,0 +1,15 @@
+import math
+
+def factorial(num):
+    count = 1
+    for i in range(num):
+        i += 1
+        count = count * i
+    return count
+
+counter = 4
+while True:
+    counter += 1
+    print(counter)
+    runner = int(factorial(counter)/(factorial(counter - 4) + 2))
+    print(runner)

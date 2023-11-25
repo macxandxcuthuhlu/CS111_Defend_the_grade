@@ -1,0 +1,14 @@
+def fx():
+    x = 0
+    while x != 7:
+        x+=1
+        print(x)
+        x+= 1
+        print(x)
+        if x > 15:
+            m = 'naw'
+            return m 
+    m = 'yaw'
+    return m
+
+m = fx()

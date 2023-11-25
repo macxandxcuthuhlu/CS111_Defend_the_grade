@@ -1,0 +1,13 @@
+def im():
+    callable = 1
+    for i in list1:
+        i(callable)
+
+def function1(callable):
+    callable += 1
+    print("it works")
+
+if True:
+    list1 = [function1]
+    for m in range(5):
+        im()

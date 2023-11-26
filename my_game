@@ -5,7 +5,7 @@
 import turtle
 import random
 import math
-from PILLOW import Image
+from PIL import Image
 
 
 

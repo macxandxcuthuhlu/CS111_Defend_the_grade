@@ -20,7 +20,10 @@ if True:
         clear_intro()
         global wake_ups
         wake_ups += 1
-        event_screen("wake_up.txt", 165, 480, wake_up, play_first_level)
+        if wake_ups < 4:
+            event_screen("wake_up.txt", 165, 480, play_first_level, wake_up)
+        else:
+            play_first_level(0, 0)
 
 #drawing functions
 if True:
@@ -242,11 +245,11 @@ if True:
         t_text.penup()
         t_text.goto(0,120)
         line_list = read_files(file_name)
+        t_text.pencolor("white")
         for i in line_list:
             t_text.write(i, align='center', font=('arial', 17, 'normal'))
             t_text.setheading(270)
             t_text.forward(19)
-        t_text.pencolor("white")
         start_button.shapesize(5)
         start_button.penup()
         start_button.goto(-100, -100)
@@ -453,7 +456,7 @@ if True:
 
     def start(x, y):
         num_levels = 5
-        while game != 'over':
+        if game != 'over':
             level_list_dict = {}
             level_turtles_dict = {}
             if num_levels == 5:

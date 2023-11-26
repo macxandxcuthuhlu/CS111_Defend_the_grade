@@ -21,70 +21,36 @@ if True:
 
 #drawing functions
 if True:
-
-    def shape_size(image, size):
-        img = Image.open(image)
-        width, height = set_screen(image)
-        m = 0
-        n = 0
-        for row in range(0, height, (size)):
-            for col in range(0, width, (size)):
-                rs = 0
-                gs = 0
-                bs = 0
-                x = col
-                y = row
-                while y % (size) != 0 and x % (size) != 0:
-                    r, g, b, h = img.getpixel((x,y))
-                    rs += r
-                    gs += g
-                    bs += b
-                    hs += h
-                    if y % size != 0:
-                        y += 1
-                    else:
-                        if x % size != 0:
-                            x += 1
-                            y = 0
-                r = min(int(rs/9)+3,255)
-                g = min(int(gs/9)+3,255)
-                b = min(int(bs/9)+3,255)
-
-                img.putpixel((min(m, width-1), min(n, height-1)), (r,g,b))
-                m = m + 1
-            n += 1
-        img.save('new_' + image)
-
-        def draw_time_rectangle():
-            global grade
-            time_line = int(1.7*grade)
-            rect_draw.setheading(0)
-            rect_draw.clear()
-            rect_draw.penup()
-            rect_draw.hideturtle()
-            rect_draw.goto(330, 100)
-            rect_draw.pencolor('black')
-            rect_draw.pendown()
-            rect_draw.fillcolor('green')
-            rect_draw.forward(25)
-            rect_draw.left(90)
-            rect_draw.forward(170)
-            rect_draw.left(90)
-            rect_draw.forward(25)
-            rect_draw.left(90)
-            rect_draw.forward(170)
-            rect_draw.left(90)
-            rect_draw.begin_fill()
-            rect_draw.penup()
-            rect_draw.forward(25)
-            rect_draw.left(90)
-            rect_draw.forward(time_line)
-            rect_draw.left(90)
-            rect_draw.forward(25)
-            rect_draw.left(90)
-            rect_draw.forward(time_line)
-            rect_draw.left(90)
-            rect_draw.end_fill()
+    def draw_grade_rectangle():
+        global grade
+        time_line = int(1.7*grade)
+        rect_draw_1.setheading(0)
+        rect_draw_1.clear()
+        rect_draw_1.penup()
+        rect_draw_1.hideturtle()
+        rect_draw_1.goto(330, 100)
+        rect_draw_1.pencolor('black')
+        rect_draw_1.pendown()
+        rect_draw_1.fillcolor('green')
+        rect_draw_1.forward(25)
+        rect_draw_1.left(90)
+        rect_draw_1.forward(170)
+        rect_draw_1.left(90)
+        rect_draw_1.forward(25)
+        rect_draw_1.left(90)
+        rect_draw_1.forward(170)
+        rect_draw_1.left(90)
+        rect_draw_1.begin_fill()
+        rect_draw_1.penup()
+        rect_draw_1.forward(25)
+        rect_draw_1.left(90)
+        rect_draw_1.forward(time_line)
+        rect_draw_1.left(90)
+        rect_draw_1.forward(25)
+        rect_draw_1.left(90)
+        rect_draw_1.forward(time_line)
+        rect_draw_1.left(90)
+        rect_draw_1.end_fill()
 
     def draw_time_rectangle():
         global time
@@ -167,6 +133,21 @@ if True:
 
 #basic helper functions
 if True:
+    def clear_intro():
+        t_text.clear()
+        t_text.penup()
+        start_button.hideturtle()
+        start_button.goto(600, 600)
+        reject_button.hideturtle()
+        reject_button.goto(600, 600)
+
+
+
+    def set_up_student():
+        cs_student.penup()
+        cs_student.goto(350, -100)
+        cs_student.showturtle()
+
     def set_screen(image):
         img = Image.open(image)
         width = img.width
@@ -182,7 +163,7 @@ if True:
 
     def make_gray(image_name):
         img = Image.open(image_name)
-        width, height = set_screen(Campus_Map.png)
+        width, height = set_screen(image_name)
         for row in range(height):
             for col in range(width):
                 r, g, b, h = img.getpixel((col,row))
@@ -217,26 +198,33 @@ if True:
 #start up screens / end screen / death screen
 if True:
     def intro_screen():
-        width, height = set_screen('Campus_Map.png')
+        image = 'Campus_Map.png'
+        width, height = set_screen(image)
         s.setup(width,height)
         make_gray('Campus_Map.png')
         s.bgpic("grey_campus.png")
-        t_text = turtle.Turtle()
         t_text.hideturtle()
         t_text.penup()
-        t_text.goto(0,0)
-        line_list = read_files("file_name")
+        t_text.goto(0,200)
+        line_list = read_files("file_name.txt")
         t_text.pencolor("white")
         t_text.write(line_list)
-        #s.tracer(True)
-        #s.tracer(False)
-        s.onclick(play_first_level)
+        start_button.shape('triangle')
+        start_button.shapesize(5)
+        start_button.penup()
+        start_button.goto(-50, -100)
+        reject_button.penup()
+        reject_button.goto(50, -100)
+        reject_button.onclick(reject_ending)
+        start_button.onclick(play_first_level)
 
 
-    def play_first_level():
+
+    def play_first_level(x, y):
             global game
             global num_levels
             global curr_level
+            clear_intro()
             width, height = set_screen('Campus_Map.png')
             s.setup(width,height)
             s.bgpic("Campus_Map.png")
@@ -268,10 +256,23 @@ if True:
         text.write("startup Screen is under construction check again later")
         pass
     
+
+
+if True:
     def winning_screen():
         text = turtle.Turtle()
         text.write("winning Screen is under construction check again later")
         pass
+    
+
+    def reject_ending(x,y):
+        d_text = turtle.Turtle()
+        d_text.hideturtle()
+        d_text.penup()
+        d_text.pendown()
+        d_text.goto(-500,-500)
+
+
 
     def death_screen():
         text = turtle.Turtle()
@@ -286,9 +287,11 @@ def next_level(x, y):
         image_set_up(curr_level)
         clear_screen()
         draw_mental_health_wall()
+        draw_grade_rectangle()
+        set_up_student()
+        draw_time_rectangle()
         s.update()
-        run_level()
-#all of the level runnings
+        game = run_level()
 
 
               
@@ -301,13 +304,14 @@ if True:
             count = 0
             for i in enemy_group:
                 
-                i.forward(1)
+                i.forward(2)
                 collide = did_collision_missile(i)
                 collides = did_collision_wall(i)
                 if collides:
                     enemy_die(i, count)
                     if mental_health < 0:
                         grade -= 1
+                        draw_grade_rectangle()
                     mental_health -= 1
                     count -= 1
                 elif collide:
@@ -327,19 +331,25 @@ if True:
 
     def run_level():
         global threshold
-        enemy_val = 14
+        global tick_speed
+        enemy_val = 6
         move_val = 1
-        grade = 50
+        end_val = 10020
         s.update()
+
         for i in stamp_ids:
             explosion.clearstamp(i)
         if threshold % enemy_val == 0:
             spawn_enemy()
+            if tick_speed > 20:
+                tick_speed -=1
         if threshold % move_val == 0:
             bullet_move()
             enemy_move()
+        if threshold % end_val == 10019:
+            return 'done'
         s.onclick(shoot)
-        s.ontimer(run_level, 100)
+        s.ontimer(run_level, tick_speed)
         threshold += 1
 
     def spawn_enemy():
@@ -348,12 +358,9 @@ if True:
         global upward_bound
 
         enemy_determination = random.randint(0, 25)
-        if enemy_determination < 5:
+        if enemy_determination < 7:
             assignment = turtle.Turtle()
             assignment.shape('assignment.gif')
-            #assignment.pensize(0.5)
-            #assignment.resizemode('auto')
-            #assignment.pensize(0.5)
             assignment.shapesize(5,5,5)
             assignment.hideturtle()
             assignment.penup()
@@ -379,7 +386,7 @@ if True:
         return False
 
     def did_collision_wall(enemy):
-        if enemy.xcor() > 100:
+        if enemy.xcor() > 260:
                 return True
         return False
 
@@ -405,15 +412,26 @@ if True:
     level_number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     level_x = [-15, 0, -100, -50, 90, -10, -10, -50, 60, 90, 100, -30]
     level_y= [-15, 0, 300, 90, 280, 50, -200, -30, -100, 300, 25, 315]
-    level_locations = ['picture1.png', 'picture2', 'picture3.png', 'picture4.png', 'picture5.png', 'picture6.png', 'picture7.png', 'picture8.png', 'picture9.png', 'picture10.png']
+    level_locations = ['picture1.png', 'picture2.png', 'picture3.png', 'picture4.png', 'picture5.png', 'picture6.png', 'picture7.png', 'picture8.png', 'picture9.png', 'picture10.png']
 
 
     enemy_group = []
     bullet_group = []
 
-   
+    cs_student = turtle.Turtle()
+    turtle.addshape('student.gif')
+    cs_student.shape('student.gif')
+    cs_student.hideturtle()
 
     rect_draw = turtle.Turtle()
+    rect_draw.hideturtle()
+    rect_draw_1 = turtle.Turtle()
+    rect_draw_1.hideturtle()
+
+    t_text = turtle.Turtle()
+    start_button = turtle.Turtle()
+    reject_button = turtle.Turtle()
+
     turtle.hideturtle()
 
     explosion = turtle.Turtle()
@@ -427,11 +445,15 @@ if True:
     global left_bound
     global bottom_bound
     global upward_bound
-    left_bound = -100
-    upward_bound = 100
-    bottom_bound = -50
+    left_bound = -400
+    upward_bound = 200
+    bottom_bound = -200
     turtle.addshape('assignment.gif')
 
+    global grade
+    grade = 100
+    global tick_speed
+    tick_speed = 110
     global curr_level
     global threshold
     threshold = 0
@@ -452,8 +474,7 @@ if True:
         level_list_dict = {}
         level_turtles_dict = {}
         if num_levels == 5:
-            play_first_level()
-            print('h')
+            intro_screen()
         elif num_levels > 0:
             play_game()
             print('heres the issue')

@@ -9,10 +9,7 @@ from PIL import Image
 
 #start up screens / end screen / death screen
 
-#endings functions
-if True:
-    if True:
-        outnaskldf = 1
+
 
 #event functions
 if True:
@@ -22,10 +19,16 @@ if True:
         clear_intro()
         global wake_ups
         wake_ups += 1
-        if wake_ups < 4:
+        if wake_ups < 3:
+            if wake_ups ==1:
+                info_screen('intro.txt', 170, 450, wake_up)
+            if wake_up == 2:
+                info_screen('sleep_info.txt', 170, 450, wake_up)
+            
+        elif wake_ups<6:
             event_screen('wake_up.txt', 170, 450, play_first_level, wake_up)
-            grade -= 20
-            mental_health += 10
+            grade -= 10
+            mental_health += 5
         else:
             event_screen('wake_up.txt', 170, 450, play_first_level, death_screen)
 
@@ -40,13 +43,13 @@ if True:
     
     def draw_text_g():
         t_text_g.clear()
-        t_text_g.goto(362, 80)
+        t_text_g.goto(362, 70)
         t_text_g.pencolor("white")
         t_text_g.write('Grade', align='center', font=('arial', 14, 'normal'))
 
     def draw_text_t():
         t_text_t.clear()
-        t_text_t.goto(309, 80)
+        t_text_t.goto(309, 70)
         t_text_t.pencolor("white")
         t_text_t.write('Time', align='center', font=('arial', 14, 'normal'))
 
@@ -56,22 +59,22 @@ if True:
     
     def draw_grade_rectangle():
         global grade
-        time_line = int(1.7*grade)
+        time_line = int(1.6*grade)
         rect_draw_1.setheading(0)
         rect_draw_1.clear()
         rect_draw_1.penup()
         rect_draw_1.hideturtle()
-        rect_draw_1.goto(348, 100)
+        rect_draw_1.goto(348, 90)
         rect_draw_1.pencolor('black')
         rect_draw_1.pendown()
         rect_draw_1.fillcolor('green')
         rect_draw_1.forward(25)
         rect_draw_1.left(90)
-        rect_draw_1.forward(170)
+        rect_draw_1.forward(160)
         rect_draw_1.left(90)
         rect_draw_1.forward(25)
         rect_draw_1.left(90)
-        rect_draw_1.forward(170)
+        rect_draw_1.forward(160)
         rect_draw_1.left(90)
         rect_draw_1.begin_fill()
         rect_draw_1.penup()
@@ -87,22 +90,22 @@ if True:
 
     def draw_time_rectangle():
         global time
-        time_line = int(1.7*time)
+        time_line = int(1.6*time)
         rect_draw.setheading(0)
         rect_draw.clear()
         rect_draw.penup()
         rect_draw.hideturtle()
-        rect_draw.goto(300, 100)
+        rect_draw.goto(300, 90)
         rect_draw.pencolor('black')
         rect_draw.pendown()
         rect_draw.fillcolor('blue')
         rect_draw.forward(25)
         rect_draw.left(90)
-        rect_draw.forward(170)
+        rect_draw.forward(160)
         rect_draw.left(90)
         rect_draw.forward(25)
         rect_draw.left(90)
-        rect_draw.forward(170)
+        rect_draw.forward(160)
         rect_draw.left(90)
         rect_draw.begin_fill()
         rect_draw.penup()
@@ -284,6 +287,29 @@ if True:
         reject_button.onclick(function_ending)
         start_button.onclick(function_level)
 
+    def info_screen(file_name, col, row, function_level):
+        image = 'Campus_Map.png'
+        width, height = set_screen(image)
+        s.setup(width,height)
+        make_gray('Campus_Map.png', col, row)
+        s.bgpic("grey_campus.png")
+        t_text.hideturtle()
+        t_text.penup()
+        t_text.goto(0,120)
+        line_list = read_files(file_name)
+        t_text.pencolor("white")
+        for i in line_list:
+            t_text.write(i, align='center', font=('arial', 17, 'normal'))
+            t_text.setheading(270)
+            t_text.forward(19)
+        start_button.hideturtle()
+        start_button.penup()
+        start_button.goto(0, -100)
+        reject_button.penup()
+        start_button.showturtle()
+        s.update()
+        start_button.onclick(function_level)
+
 
 
     def play_first_level(x, y):
@@ -310,7 +336,6 @@ if True:
                 i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
                 i.showturtle()
                 s.update()
-                print(level_turtles_dict)
             while game != 'done':
                 for i in level_turtles_dict:
                     i.showturtle()
@@ -324,7 +349,7 @@ if True:
             global curr_level
             clear_intro()
             for i in level_turtles_dict:
-                if level_turtles_dict[i] = curr_level:
+                if level_turtles_dict[i] == curr_level:
                     level_turtles_dict.remove(i)
             width, height = set_screen('Campus_Map.png')
             s.setup(width,height)
@@ -345,7 +370,7 @@ if True:
                 i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
                 i.showturtle()
                 s.update()
-                print(level_turtles_dict)
+            
             while game != 'done':
                 for i in level_turtles_dict:
                     i.showturtle()
@@ -493,12 +518,12 @@ if True:
 
     def did_collision_missile(enemy):
         for missile in bullet_group:
-            if (math.sqrt(math.pow(missile.xcor() - enemy.xcor(), 2)+ math.pow(missile.ycor() - enemy.ycor(), 2))) < 15:
+            if (math.sqrt(math.pow(missile.xcor() - enemy.xcor(), 2)+ math.pow(missile.ycor() - enemy.ycor(), 2))) < 25:
                 return True
         return False
 
     def did_collision_wall(enemy):
-        if enemy.xcor() > 260:
+        if enemy.xcor() > 257:
                 return True
         return False
 

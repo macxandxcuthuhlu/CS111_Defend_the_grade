@@ -24,7 +24,7 @@ if True:
     def draw_text_m():
         global mental_health
         t_text_m.clear()
-        t_text_m.goto(254, -4)
+        t_text_m.goto(254, -26)
         t_text_m.pencolor("black")
         t_text_m.write(str(mental_health), align='center', font=('arial', 13, 'normal'))
     
@@ -130,6 +130,8 @@ if True:
         wall_turtle.forward(int(height)/2)
         wall_turtle.end_fill()
         wall_turtle.penup()
+        wall_turtle.setheading(270)
+        wall_turtle.forward(22)
         wall_turtle.setheading(0)
         wall_turtle.forward(-15)
         wall_turtle.pendown()
@@ -149,7 +151,7 @@ if True:
             wall_turtle.forward(3)
             wall_turtle.right(i)
             wall_turtle.forward(2)
-        wall_turtle.goto(235, 0)
+        wall_turtle.goto(235, -22)
         wall_turtle.end_fill()
     
    
@@ -233,7 +235,6 @@ if True:
         t_text.penup()
         t_text.goto(0,120)
         line_list = read_files("file_name.txt")
-        print(line_list)
         t_text.pencolor("white")
         for i in line_list:
             t_text.write(i, align='center', font=('arial', 17, 'normal'))
@@ -356,11 +357,10 @@ if True:
         def bullet_move():
             counter = 0
             for i in bullet_group:
-                i.forward(3)
+                i.forward(4)
                 if i.xcor() < -600:
                     i.hideturtle()
                     bullet_group.pop(counter)
-                    counter += 1
 
     def run_level():
         global threshold

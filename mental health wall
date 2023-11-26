@@ -1,0 +1,53 @@
+import turtle
+
+def draw_mental_health_wall():
+    global curr_level
+    wall_turtle = turtle.Turtle()
+    wall_turtle.hideturtle()
+    wall_turtle.penup()
+    wall_turtle.goto(300, 0)
+    width, height = set_screen(level_locations[curr_level])
+
+    wall_turtle.pendown()
+    wall_turtle.pencolor('black')
+    wall_turtle.fillcolor("grey")
+    wall_turtle.begin_fill()
+    wall_turtle.left(90)
+    wall_turtle.forward(int(height)/2)
+    wall_turtle.right(90)
+    wall_turtle.forward(10)
+    wall_turtle.right(90)
+    wall_turtle.forward(int(height))
+    wall_turtle.right(90)
+    wall_turtle.forward(10)
+    wall_turtle.right(90)
+    wall_turtle.forward(int(height)/2)
+    wall_turtle.end_fill()
+    wall_turtle.penup()
+    wall_turtle.setheading(0)
+    wall_turtle.forward(-25)
+    wall_turtle.pendown()
+    wall_turtle.setheading(80)
+    wall_turtle.fillcolor("white")
+    wall_turtle.begin_fill()
+    for i in range(3, 16, 1):
+        wall_turtle.forward(4)
+        wall_turtle.right(i)
+        wall_turtle.forward(2)
+        wall_turtle.right(i)
+    wall_turtle.right(210)
+    for i in range(15, 3, -1):
+        wall_turtle.right(i)
+        wall_turtle.forward(3)
+        wall_turtle.right(i)
+        wall_turtle.forward(2)
+        wall_turtle.forward(1)
+    wall_turtle.goto(275, 0)
+    wall_turtle.end_fill()
+    
+
+
+
+
+s = turtle.getscreen()
+draw_mental_health_wall()

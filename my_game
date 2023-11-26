@@ -1,0 +1,462 @@
+# Final Project
+# CS 111, Hayes & Reckinger
+
+
+import turtle
+import random
+import math
+from PILLOW import Image
+
+
+
+#endings functions
+if True:
+    if True:
+        outnaskldf = 1
+
+#event functions
+if True:
+    def wake_up():
+        pass
+
+#drawing functions
+if True:
+
+    def shape_size(image, size):
+        img = Image.open(image)
+        width, height = set_screen(image)
+        m = 0
+        n = 0
+        for row in range(0, height, (size)):
+            for col in range(0, width, (size)):
+                rs = 0
+                gs = 0
+                bs = 0
+                x = col
+                y = row
+                while y % (size) != 0 and x % (size) != 0:
+                    r, g, b, h = img.getpixel((x,y))
+                    rs += r
+                    gs += g
+                    bs += b
+                    hs += h
+                    if y % size != 0:
+                        y += 1
+                    else:
+                        if x % size != 0:
+                            x += 1
+                            y = 0
+                r = min(int(rs/9)+3,255)
+                g = min(int(gs/9)+3,255)
+                b = min(int(bs/9)+3,255)
+
+                img.putpixel((min(m, width-1), min(n, height-1)), (r,g,b))
+                m = m + 1
+            n += 1
+        img.save('new_' + image)
+
+        def draw_time_rectangle():
+            global grade
+            time_line = int(1.7*grade)
+            rect_draw.setheading(0)
+            rect_draw.clear()
+            rect_draw.penup()
+            rect_draw.hideturtle()
+            rect_draw.goto(330, 100)
+            rect_draw.pencolor('black')
+            rect_draw.pendown()
+            rect_draw.fillcolor('green')
+            rect_draw.forward(25)
+            rect_draw.left(90)
+            rect_draw.forward(170)
+            rect_draw.left(90)
+            rect_draw.forward(25)
+            rect_draw.left(90)
+            rect_draw.forward(170)
+            rect_draw.left(90)
+            rect_draw.begin_fill()
+            rect_draw.penup()
+            rect_draw.forward(25)
+            rect_draw.left(90)
+            rect_draw.forward(time_line)
+            rect_draw.left(90)
+            rect_draw.forward(25)
+            rect_draw.left(90)
+            rect_draw.forward(time_line)
+            rect_draw.left(90)
+            rect_draw.end_fill()
+
+    def draw_time_rectangle():
+        global time
+        time_line = int(1.7*time)
+        rect_draw.setheading(0)
+        rect_draw.clear()
+        rect_draw.penup()
+        rect_draw.hideturtle()
+        rect_draw.goto(300, 100)
+        rect_draw.pencolor('black')
+        rect_draw.pendown()
+        rect_draw.fillcolor('blue')
+        rect_draw.forward(25)
+        rect_draw.left(90)
+        rect_draw.forward(170)
+        rect_draw.left(90)
+        rect_draw.forward(25)
+        rect_draw.left(90)
+        rect_draw.forward(170)
+        rect_draw.left(90)
+        rect_draw.begin_fill()
+        rect_draw.penup()
+        rect_draw.forward(25)
+        rect_draw.left(90)
+        rect_draw.forward(time_line)
+        rect_draw.left(90)
+        rect_draw.forward(25)
+        rect_draw.left(90)
+        rect_draw.forward(time_line)
+        rect_draw.left(90)
+        rect_draw.end_fill()
+
+    def draw_mental_health_wall():
+        global curr_level
+        wall_turtle = turtle.Turtle()
+        wall_turtle.hideturtle()
+        wall_turtle.penup()
+        wall_turtle.goto(250, 0)
+        width, height = set_screen(level_locations[curr_level])
+
+        wall_turtle.pendown()
+        wall_turtle.pencolor('black')
+        wall_turtle.fillcolor("grey")
+        wall_turtle.begin_fill()
+        wall_turtle.left(90)
+        wall_turtle.forward(int(height)/2)
+        wall_turtle.right(90)
+        wall_turtle.forward(10)
+        wall_turtle.right(90)
+        wall_turtle.forward(int(height))
+        wall_turtle.right(90)
+        wall_turtle.forward(10)
+        wall_turtle.right(90)
+        wall_turtle.forward(int(height)/2)
+        wall_turtle.end_fill()
+        wall_turtle.penup()
+        wall_turtle.setheading(0)
+        wall_turtle.forward(-25)
+        wall_turtle.pendown()
+        wall_turtle.setheading(80)
+        wall_turtle.fillcolor("white")
+        wall_turtle.begin_fill()
+        for i in range(3, 16, 1):
+            wall_turtle.forward(4)
+            wall_turtle.right(i)
+            wall_turtle.forward(2)
+            wall_turtle.right(i)
+        wall_turtle.forward(4)
+        
+        wall_turtle.right(208)
+        for i in range(15, 3, -1):
+            wall_turtle.right(i)
+            wall_turtle.forward(3)
+            wall_turtle.right(i)
+            wall_turtle.forward(2)
+        wall_turtle.goto(225, 0)
+        wall_turtle.end_fill()
+    
+   
+
+#basic helper functions
+if True:
+    def set_screen(image):
+        img = Image.open(image)
+        width = img.width
+        height = img.height
+        return width, height
+
+    def clear_screen():
+        for i in level_turtles_dict:
+            i.hideturtle()
+            i.goto(900, 900)
+        level_turtlles_dict = {}
+
+
+    def make_gray(image_name):
+        img = Image.open(image_name)
+        width, height = set_screen(Campus_Map.png)
+        for row in range(height):
+            for col in range(width):
+                r, g, b, h = img.getpixel((col,row))
+                average = int((int(r) + g + b)/3)
+                if row > 300 and row < 450:
+                    r = int(0.6*(0.7*average + 0.3*r))
+                    g = int(0.6*(0.7*average + 0.3*g))
+                    b = int(0.6*(0.7*average + 0.3*b))
+                else:
+                    r = int(0.7*average + 0.3*r)
+                    g = int(0.7*average + 0.3*g)
+                    b = int(0.7*average + 0.3*b)
+                img.putpixel((col,row), (r,g,b,h))
+        img.save("grey_campus.png")
+
+    def read_files(file_name):
+        with open(file_name) as files:
+            text = files.readlines()
+        return text
+    def draw_explosion(x, y):
+        explosion.goto(x, y)
+        stamp_id = explosion.stamp()
+        stamp_ids.append(stamp_id)
+    
+    def image_set_up(num):
+        with Image.open(level_locations[num]) as img:
+            width = img.width
+            height = img.height
+            s.setup(width, height)
+        s.bgpic(level_locations[num])
+
+#start up screens / end screen / death screen
+if True:
+    def intro_screen():
+        width, height = set_screen('Campus_Map.png')
+        s.setup(width,height)
+        make_gray('Campus_Map.png')
+        s.bgpic("grey_campus.png")
+        t_text = turtle.Turtle()
+        t_text.hideturtle()
+        t_text.penup()
+        t_text.goto(0,0)
+        line_list = read_files("file_name")
+        t_text.pencolor("white")
+        t_text.write(line_list)
+        #s.tracer(True)
+        #s.tracer(False)
+        s.onclick(play_first_level)
+
+
+    def play_first_level():
+            global game
+            global num_levels
+            global curr_level
+            width, height = set_screen('Campus_Map.png')
+            s.setup(width,height)
+            s.bgpic("Campus_Map.png")
+            for i in range(num_levels):
+                turtle_name = 'level' + str(i+1)
+                level_list.append(turtle_name)
+            for i in level_list:
+                i = turtle.Turtle()
+                level_turtles_dict[i] = 0
+            for i in level_turtles_dict:
+                level_turtles_dict[i] = level_number[random.randint(0, len(level_number) - 1)]
+                i.hideturtle()
+                i.penup()
+                i.shape("circle")
+
+
+                i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
+                i.showturtle()
+                s.update()
+            while game != 'done':
+                for i in level_turtles_dict:
+                    s.update()
+                    curr_level = int(level_turtles_dict[i])
+                    i.onclick(next_level)
+            
+    
+    def play_startup_screen():
+        text = turtle.Turtle()
+        text.write("startup Screen is under construction check again later")
+        pass
+    
+    def winning_screen():
+        text = turtle.Turtle()
+        text.write("winning Screen is under construction check again later")
+        pass
+
+    def death_screen():
+        text = turtle.Turtle()
+        text.write("death Screen is under construction check again later")
+        pass
+
+
+def next_level(x, y):
+        global curr_level
+        enemy_group = []
+        bullet_group = []
+        image_set_up(curr_level)
+        clear_screen()
+        draw_mental_health_wall()
+        s.update()
+        run_level()
+#all of the level runnings
+
+
+              
+            
+if True:
+    if True:
+        def enemy_move():
+            global grade
+            global mental_health
+            count = 0
+            for i in enemy_group:
+                
+                i.forward(1)
+                collide = did_collision_missile(i)
+                collides = did_collision_wall(i)
+                if collides:
+                    enemy_die(i, count)
+                    if mental_health < 0:
+                        grade -= 1
+                    mental_health -= 1
+                    count -= 1
+                elif collide:
+                    enemy_die(i, count)
+
+                    count -= 1
+                count += 1
+        
+        def bullet_move():
+            counter = 0
+            for i in bullet_group:
+                i.forward(3)
+                if i.xcor() < -600:
+                    i.hideturtle()
+                    bullet_group.pop(counter)
+                    counter += 1
+
+    def run_level():
+        global threshold
+        enemy_val = 14
+        move_val = 1
+        grade = 50
+        s.update()
+        for i in stamp_ids:
+            explosion.clearstamp(i)
+        if threshold % enemy_val == 0:
+            spawn_enemy()
+        if threshold % move_val == 0:
+            bullet_move()
+            enemy_move()
+        s.onclick(shoot)
+        s.ontimer(run_level, 100)
+        threshold += 1
+
+    def spawn_enemy():
+        global left_bound
+        global bottom_bound
+        global upward_bound
+
+        enemy_determination = random.randint(0, 25)
+        if enemy_determination < 5:
+            assignment = turtle.Turtle()
+            assignment.shape('assignment.gif')
+            #assignment.pensize(0.5)
+            #assignment.resizemode('auto')
+            #assignment.pensize(0.5)
+            assignment.shapesize(5,5,5)
+            assignment.hideturtle()
+            assignment.penup()
+            assignment.goto(left_bound, random.randint(bottom_bound, upward_bound))
+            assignment.setheading(0)
+            assignment.showturtle()
+
+            enemy_group.append(assignment)
+
+
+    def enemy_die(enemy, count):
+        enemy.hideturtle()
+        draw_explosion(enemy.xcor(), enemy.ycor())
+        enemy.penup()
+        enemy.goto(1000,1000)
+        enemy = enemy
+        enemy_group.pop(count)
+
+    def did_collision_missile(enemy):
+        for missile in bullet_group:
+            if (math.sqrt(math.pow(missile.xcor() - enemy.xcor(), 2)+ math.pow(missile.ycor() - enemy.ycor(), 2))) < 15:
+                return True
+        return False
+
+    def did_collision_wall(enemy):
+        if enemy.xcor() > 100:
+                return True
+        return False
+
+    def shoot(x, y):
+        global time
+        missile = turtle.Turtle()
+        missile.hideturtle()
+        missile.shape('circle')
+        missile.color('blue')
+        missile.penup()
+        missile.goto(200, 0)
+        missile.showturtle()
+        missile.setheading(missile.towards(x,y))
+        bullet_group.append(missile)
+        time -= 1
+        draw_time_rectangle()
+
+
+
+#main thats starts code
+if True:
+    level_list = []
+    level_number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    level_x = [-15, 0, -100, -50, 90, -10, -10, -50, 60, 90, 100, -30]
+    level_y= [-15, 0, 300, 90, 280, 50, -200, -30, -100, 300, 25, 315]
+    level_locations = ['picture1.png', 'picture2', 'picture3.png', 'picture4.png', 'picture5.png', 'picture6.png', 'picture7.png', 'picture8.png', 'picture9.png', 'picture10.png']
+
+
+    enemy_group = []
+    bullet_group = []
+
+   
+
+    rect_draw = turtle.Turtle()
+    turtle.hideturtle()
+
+    explosion = turtle.Turtle()
+    turtle.addshape('explosion.gif')
+    explosion.shape('explosion.gif')
+    explosion.shapesize(5, 5, 5)
+    explosion.hideturtle()
+    explosion.penup()
+    stamp_ids = []
+
+    global left_bound
+    global bottom_bound
+    global upward_bound
+    left_bound = -100
+    upward_bound = 100
+    bottom_bound = -50
+    turtle.addshape('assignment.gif')
+
+    global curr_level
+    global threshold
+    threshold = 0
+    global game
+    global num_levels
+    global time
+    global mental_health
+    time = 50
+    mental_health = 30
+    game = 'start'
+
+
+    s = turtle.getscreen()
+    s.tracer(False)
+
+    num_levels = 5
+    while game != 'over':
+        level_list_dict = {}
+        level_turtles_dict = {}
+        if num_levels == 5:
+            play_first_level()
+            print('h')
+        elif num_levels > 0:
+            play_game()
+            print('heres the issue')
+
+
+turtle.mainloop() 

@@ -1,0 +1,41 @@
+    
+import turtle
+if True:
+    def draw_time_rectangle():
+        global time
+        time_line = int(1.7*time)
+        rect_draw.setheading(0)
+        rect_draw.clear()
+        rect_draw.penup()
+        rect_draw.hideturtle()
+        rect_draw.goto(300, 100)
+        rect_draw.pencolor('black')
+        rect_draw.pendown()
+        rect_draw.fillcolor('blue')
+        rect_draw.forward(25)
+        rect_draw.left(90)
+        rect_draw.forward(170)
+        rect_draw.left(90)
+        rect_draw.forward(25)
+        rect_draw.left(90)
+        rect_draw.forward(170)
+        rect_draw.left(90)
+        rect_draw.begin_fill()
+        rect_draw.penup()
+        rect_draw.forward(25)
+        rect_draw.left(90)
+        rect_draw.forward(time_line)
+        rect_draw.left(90)
+        rect_draw.forward(25)
+        rect_draw.left(90)
+        rect_draw.forward(time_line)
+        rect_draw.left(90)
+        rect_draw.end_fill()
+
+
+
+s = turtle.getscreen()
+global time
+time = 50
+rect_draw = turtle.Turtle()
+draw_time_rectangle()

@@ -108,7 +108,7 @@ if True:
         wall_turtle.end_fill()
         wall_turtle.penup()
         wall_turtle.setheading(0)
-        wall_turtle.forward(-25)
+        wall_turtle.forward(-15)
         wall_turtle.pendown()
         wall_turtle.setheading(80)
         wall_turtle.fillcolor("white")
@@ -126,7 +126,7 @@ if True:
             wall_turtle.forward(3)
             wall_turtle.right(i)
             wall_turtle.forward(2)
-        wall_turtle.goto(225, 0)
+        wall_turtle.goto(235, 0)
         wall_turtle.end_fill()
     
    
@@ -168,10 +168,10 @@ if True:
             for col in range(width):
                 r, g, b, h = img.getpixel((col,row))
                 average = int((int(r) + g + b)/3)
-                if row > 300 and row < 450:
-                    r = int(0.6*(0.7*average + 0.3*r))
-                    g = int(0.6*(0.7*average + 0.3*g))
-                    b = int(0.6*(0.7*average + 0.3*b))
+                if row > 170 and row < 480:
+                    r = int(0.45*(0.7*average + 0.3*r))
+                    g = int(0.45*(0.7*average + 0.3*g))
+                    b = int(0.45*(0.7*average + 0.3*b))
                 else:
                     r = int(0.7*average + 0.3*r)
                     g = int(0.7*average + 0.3*g)
@@ -182,7 +182,10 @@ if True:
     def read_files(file_name):
         with open(file_name) as files:
             text = files.readlines()
+            for i in range(len(text)):
+                text[i] = text[i].strip()
         return text
+    
     def draw_explosion(x, y):
         explosion.goto(x, y)
         stamp_id = explosion.stamp()
@@ -205,16 +208,19 @@ if True:
         s.bgpic("grey_campus.png")
         t_text.hideturtle()
         t_text.penup()
-        t_text.goto(0,200)
+        t_text.goto(0,120)
         line_list = read_files("file_name.txt")
+        print(line_list)
         t_text.pencolor("white")
-        t_text.write(line_list)
-        start_button.shape('triangle')
+        for i in line_list:
+            t_text.write(i, align='center', font=('arial', 17, 'normal'))
+            t_text.setheading(270)
+            t_text.forward(19)
         start_button.shapesize(5)
         start_button.penup()
-        start_button.goto(-50, -100)
+        start_button.goto(-100, -100)
         reject_button.penup()
-        reject_button.goto(50, -100)
+        reject_button.goto(100, -95)
         reject_button.onclick(reject_ending)
         start_button.onclick(play_first_level)
 
@@ -397,7 +403,7 @@ if True:
         missile.shape('circle')
         missile.color('blue')
         missile.penup()
-        missile.goto(200, 0)
+        missile.goto(302, -24)
         missile.showturtle()
         missile.setheading(missile.towards(x,y))
         bullet_group.append(missile)
@@ -431,6 +437,10 @@ if True:
     t_text = turtle.Turtle()
     start_button = turtle.Turtle()
     reject_button = turtle.Turtle()
+    turtle.addshape('yes_button.gif')
+    turtle.addshape('no_button.gif')
+    start_button.shape('yes_button.gif')
+    reject_button.shape('no_button.gif')
 
     turtle.hideturtle()
 

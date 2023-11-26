@@ -17,13 +17,17 @@ if True:
 #event functions
 if True:
     def wake_up(x, y):
+        global mental_health
+        global grade
         clear_intro()
         global wake_ups
         wake_ups += 1
         if wake_ups < 4:
-            event_screen("wake_up.txt", 165, 480, play_first_level, wake_up)
+            event_screen('wake_up.txt', 170, 450, play_first_level, wake_up)
+            grade -= 20
+            mental_health += 10
         else:
-            play_first_level(0, 0)
+            event_screen('wake_up.txt', 170, 450, play_first_level, death_screen)
 
 #drawing functions
 if True:
@@ -114,7 +118,6 @@ if True:
 
     def draw_mental_health_wall():
         global curr_level
-        wall_turtle = turtle.Turtle()
         wall_turtle.hideturtle()
         wall_turtle.penup()
         wall_turtle.goto(250, 0)
@@ -168,6 +171,11 @@ if True:
         global game
         game = 'over'
 
+    def out_of_time(x,y):
+        time_turt.goto(265, -25)
+        time_turt.pencolor("black")
+        time_turt.write("Out of Time", align='center', font=('arial', 22, 'normal'))
+
     def clear_intro():
         t_text.clear()
         t_text.penup()
@@ -195,6 +203,21 @@ if True:
             i.goto(900, 900)
         level_turtlles_dict = {}
 
+    def clear_game():
+        for i in enemy_group:
+            i.hideturtle()
+            i.goto(500, 500)
+            enemy_group.pop(0)
+        for i in bullet_group:
+            i.hideturtle()
+            i.goto(500, 500)
+            enemy_group.pop(0)
+        t_text_g.clear()
+        t_text_m.clear()
+        t_text_t.clear()
+        wall_turtle.clear()
+        rect_draw.clear()
+        rect_draw_1.clear()
 
     def make_gray(image_name, m, n):
         img = Image.open(image_name)
@@ -287,13 +310,47 @@ if True:
                 i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
                 i.showturtle()
                 s.update()
+                print(level_turtles_dict)
             while game != 'done':
                 for i in level_turtles_dict:
+                    i.showturtle()
                     s.update()
                     curr_level = int(level_turtles_dict[i])
                     i.onclick(next_level)
             
-    
+    def play_next_level(x, y):
+            global game
+            global num_levels
+            global curr_level
+            clear_intro()
+            width, height = set_screen('Campus_Map.png')
+            s.setup(width,height)
+            s.bgpic("Campus_Map.png")
+            for i in range(num_levels):
+                turtle_name = 'level' + str(i+1)
+                level_list.append(turtle_name)
+            for i in level_list:
+                i = turtle.Turtle()
+                level_turtles_dict[i] = 0
+            for i in level_turtles_dict:
+                level_turtles_dict[i] = level_number[random.randint(0, len(level_number) - 1)]
+                i.hideturtle()
+                i.penup()
+                i.shape("circle")
+
+
+                i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
+                i.showturtle()
+                s.update()
+                print(level_turtles_dict)
+            while game != 'done':
+                for i in level_turtles_dict:
+                    i.showturtle()
+                    s.update()
+                    curr_level = int(level_turtles_dict[i])
+                    i.onclick(next_level)
+
+
     def play_startup_screen():
         text = turtle.Turtle()
         text.write("startup Screen is under construction check again later")
@@ -316,9 +373,9 @@ if True:
 
 
     def death_screen():
-        text = turtle.Turtle()
-        text.write("death Screen is under construction check again later")
-        pass
+        clear_screen()
+        clear_game()
+        event_screen('death.txt', 170, 450, start, game_end)
 
 
 def next_level(x, y):
@@ -358,6 +415,8 @@ if True:
                         draw_grade_rectangle()
                     mental_health -= 1
                     draw_text_m()
+                    wall_turtle.clear()
+                    t_text_m.clear()
                     count -= 1
                 elif collide:
                     enemy_die(i, count)
@@ -378,9 +437,11 @@ if True:
         global tick_speed
         enemy_val = 6
         move_val = 1
-        end_val = 10020
+        end_val = 5020
         s.update()
-
+        if grade < 1:
+            death_screen()
+        
         for i in stamp_ids:
             explosion.clearstamp(i)
         if threshold % enemy_val == 0:
@@ -390,11 +451,15 @@ if True:
         if threshold % move_val == 0:
             bullet_move()
             enemy_move()
-        if threshold % end_val == 10019:
-            return 'done'
-        s.onclick(shoot)
-        s.ontimer(run_level, tick_speed)
+        if threshold % end_val == 5019:
+            play_next_level()
+        if time > 0:
+            s.onclick(shoot)
+        else:
+            time_turt.clear()
+            s.onclick(out_of_time)
         threshold += 1
+        s.ontimer(run_level, tick_speed)
 
     def spawn_enemy():
         global left_bound
@@ -455,10 +520,7 @@ if True:
 
 
     def start(x, y):
-        num_levels = 5
         if game != 'over':
-            level_list_dict = {}
-            level_turtles_dict = {}
             if num_levels == 5:
                 event_screen("file_name.txt", 165, 480, wake_up, reject_ending)
             elif num_levels > 0:
@@ -526,6 +588,14 @@ if True:
     global wake_ups
     wake_ups = 0
 
+    wall_turtle = turtle.Turtle()
+    wall_turtle.hideturtle()
+
+
+    global num_levels
+    num_levels = 5
+    
+
     global grade
     grade = 100
     global tick_speed
@@ -534,13 +604,18 @@ if True:
     global threshold
     threshold = 0
     global game
-    global num_levels
     global time
     global mental_health
     time = 50
     mental_health = 30
     game = 'start'
 
+    time_turt = turtle.Turtle()
+    time_turt.hideturtle()
+    time_turt.penup()
+    
+    level_list_dict = {}
+    level_turtles_dict = {}
 
     s = turtle.getscreen()
     s.tracer(False)

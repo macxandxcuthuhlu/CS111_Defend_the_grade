@@ -323,6 +323,9 @@ if True:
             global num_levels
             global curr_level
             clear_intro()
+            for i in level_turtles_dict:
+                if level_turtles_dict[i] = curr_level:
+                    level_turtles_dict.remove(i)
             width, height = set_screen('Campus_Map.png')
             s.setup(width,height)
             s.bgpic("Campus_Map.png")

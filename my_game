@@ -7,7 +7,7 @@ import random
 import math
 from PIL import Image
 
-
+#start up screens / end screen / death screen
 
 #endings functions
 if True:
@@ -16,8 +16,11 @@ if True:
 
 #event functions
 if True:
-    def wake_up():
-        pass
+    def wake_up(x, y):
+        clear_intro()
+        global wake_ups
+        wake_ups += 1
+        event_screen("wake_up.txt", 165, 480, wake_up, play_first_level)
 
 #drawing functions
 if True:
@@ -158,6 +161,10 @@ if True:
 
 #basic helper functions
 if True:
+    def game_end(x, y):
+        global game
+        game = 'over'
+
     def clear_intro():
         t_text.clear()
         t_text.penup()
@@ -186,14 +193,14 @@ if True:
         level_turtlles_dict = {}
 
 
-    def make_gray(image_name):
+    def make_gray(image_name, m, n):
         img = Image.open(image_name)
         width, height = set_screen(image_name)
         for row in range(height):
             for col in range(width):
                 r, g, b, h = img.getpixel((col,row))
                 average = int((int(r) + g + b)/3)
-                if row > 170 and row < 480:
+                if row > m and row < n:
                     r = int(0.45*(0.7*average + 0.3*r))
                     g = int(0.45*(0.7*average + 0.3*g))
                     b = int(0.45*(0.7*average + 0.3*b))
@@ -223,30 +230,33 @@ if True:
             s.setup(width, height)
         s.bgpic(level_locations[num])
 
-#start up screens / end screen / death screen
+
 if True:
-    def intro_screen():
+    def event_screen(file_name, col, row, function_level, function_ending):
         image = 'Campus_Map.png'
         width, height = set_screen(image)
         s.setup(width,height)
-        make_gray('Campus_Map.png')
+        make_gray('Campus_Map.png', col, row)
         s.bgpic("grey_campus.png")
         t_text.hideturtle()
         t_text.penup()
         t_text.goto(0,120)
-        line_list = read_files("file_name.txt")
-        t_text.pencolor("white")
+        line_list = read_files(file_name)
         for i in line_list:
             t_text.write(i, align='center', font=('arial', 17, 'normal'))
             t_text.setheading(270)
             t_text.forward(19)
+        t_text.pencolor("white")
         start_button.shapesize(5)
         start_button.penup()
         start_button.goto(-100, -100)
         reject_button.penup()
         reject_button.goto(100, -95)
-        reject_button.onclick(reject_ending)
-        start_button.onclick(play_first_level)
+        start_button.showturtle()
+        reject_button.showturtle()
+        s.update()
+        reject_button.onclick(function_ending)
+        start_button.onclick(function_level)
 
 
 
@@ -296,11 +306,9 @@ if True:
     
 
     def reject_ending(x,y):
-        d_text = turtle.Turtle()
-        d_text.hideturtle()
-        d_text.penup()
-        d_text.pendown()
-        d_text.goto(-500,-500)
+        clear_intro()
+        event_screen('reject_ending.txt', 160, 500, start, game_end)
+
 
 
 
@@ -441,6 +449,20 @@ if True:
 
 #main thats starts code
 if True:
+
+
+    def start(x, y):
+        num_levels = 5
+        while game != 'over':
+            level_list_dict = {}
+            level_turtles_dict = {}
+            if num_levels == 5:
+                event_screen("file_name.txt", 165, 480, wake_up, reject_ending)
+            elif num_levels > 0:
+                play_game()
+                print('heres the issue')
+
+
     level_list = []
     level_number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     level_x = [-15, 0, -100, -50, 90, -10, -10, -50, 60, 90, 100, -30]
@@ -498,6 +520,9 @@ if True:
     bottom_bound = -200
     turtle.addshape('assignment.gif')
 
+    global wake_ups
+    wake_ups = 0
+
     global grade
     grade = 100
     global tick_speed
@@ -516,16 +541,8 @@ if True:
 
     s = turtle.getscreen()
     s.tracer(False)
+    start(0, 0)
 
-    num_levels = 5
-    while game != 'over':
-        level_list_dict = {}
-        level_turtles_dict = {}
-        if num_levels == 5:
-            intro_screen()
-        elif num_levels > 0:
-            play_game()
-            print('heres the issue')
 
 
 turtle.mainloop() 

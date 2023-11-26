@@ -21,6 +21,29 @@ if True:
 
 #drawing functions
 if True:
+    def draw_text_m():
+        global mental_health
+        t_text_m.clear()
+        t_text_m.goto(254, -4)
+        t_text_m.pencolor("black")
+        t_text_m.write(str(mental_health), align='center', font=('arial', 13, 'normal'))
+    
+    def draw_text_g():
+        t_text_g.clear()
+        t_text_g.goto(362, 80)
+        t_text_g.pencolor("white")
+        t_text_g.write('Grade', align='center', font=('arial', 14, 'normal'))
+
+    def draw_text_t():
+        t_text_t.clear()
+        t_text_t.goto(309, 80)
+        t_text_t.pencolor("white")
+        t_text_t.write('Time', align='center', font=('arial', 14, 'normal'))
+
+
+
+
+    
     def draw_grade_rectangle():
         global grade
         time_line = int(1.7*grade)
@@ -28,7 +51,7 @@ if True:
         rect_draw_1.clear()
         rect_draw_1.penup()
         rect_draw_1.hideturtle()
-        rect_draw_1.goto(330, 100)
+        rect_draw_1.goto(348, 100)
         rect_draw_1.pencolor('black')
         rect_draw_1.pendown()
         rect_draw_1.fillcolor('green')
@@ -296,6 +319,9 @@ def next_level(x, y):
         draw_grade_rectangle()
         set_up_student()
         draw_time_rectangle()
+        draw_text_t()
+        draw_text_m()
+        draw_text_g()
         s.update()
         game = run_level()
 
@@ -319,6 +345,7 @@ if True:
                         grade -= 1
                         draw_grade_rectangle()
                     mental_health -= 1
+                    draw_text_m()
                     count -= 1
                 elif collide:
                     enemy_die(i, count)
@@ -441,6 +468,17 @@ if True:
     turtle.addshape('no_button.gif')
     start_button.shape('yes_button.gif')
     reject_button.shape('no_button.gif')
+
+
+    t_text_m = turtle.Turtle()
+    t_text_g = turtle.Turtle()
+    t_text_t = turtle.Turtle()
+    t_text_m.penup()
+    t_text_g.penup()
+    t_text_t.penup()
+    t_text_m.hideturtle()
+    t_text_g.hideturtle()
+    t_text_t.hideturtle()
 
     turtle.hideturtle()
 

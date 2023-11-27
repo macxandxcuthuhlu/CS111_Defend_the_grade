@@ -240,6 +240,19 @@ if True:
                 img.putpixel((col,row), (r,g,b,h))
         img.save("grey_campus.png")
 
+    def make_black(image_name):
+        img = Image.open(image_name)
+        width, height = set_screen(image_name)
+        for row in range(height):
+            for col in range(width):
+                r, g, b, h = img.getpixel((col,row))
+                average = int((int(r) + g + b)/3)
+                r = 12
+                g = 1
+                b = 3
+                img.putpixel((col,row), (r,g,b,h))
+        img.save("black_campus.png")
+
     def read_files(file_name):
         with open(file_name) as files:
             text = files.readlines()
@@ -317,6 +330,7 @@ if True:
             global num_levels
             global curr_level
             clear_intro()
+            num_list = []
             width, height = set_screen('Campus_Map.png')
             s.setup(width,height)
             s.bgpic("Campus_Map.png")
@@ -327,10 +341,15 @@ if True:
                 i = turtle.Turtle()
                 level_turtles_dict[i] = 0
             for i in level_turtles_dict:
-                level_turtles_dict[i] = level_number[random.randint(0, len(level_number) - 1)]
+                number = random.randint(0, len(level_number) - 1)
+                while number in num_list:
+                    number = random.randint(0, len(level_number) - 1)
+                level_turtles_dict[i] = level_number[number]
+                num_list.append(number)
                 i.hideturtle()
                 i.penup()
                 i.shape("circle")
+    
 
 
                 i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
@@ -348,35 +367,25 @@ if True:
             global num_levels
             global curr_level
             clear_intro()
+            clear_game
             for i in level_turtles_dict:
                 if level_turtles_dict[i] == curr_level:
                     level_turtles_dict.remove(i)
             width, height = set_screen('Campus_Map.png')
             s.setup(width,height)
             s.bgpic("Campus_Map.png")
-            for i in range(num_levels):
-                turtle_name = 'level' + str(i+1)
-                level_list.append(turtle_name)
-            for i in level_list:
-                i = turtle.Turtle()
-                level_turtles_dict[i] = 0
             for i in level_turtles_dict:
-                level_turtles_dict[i] = level_number[random.randint(0, len(level_number) - 1)]
-                i.hideturtle()
-                i.penup()
-                i.shape("circle")
 
-
+                i.showturtle()
                 i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
                 i.showturtle()
-                s.update()
+            s.update()
             
             while game != 'done':
                 for i in level_turtles_dict:
-                    i.showturtle()
-                    s.update()
                     curr_level = int(level_turtles_dict[i])
                     i.onclick(next_level)
+                    s.update()
 
 
     def play_startup_screen():
@@ -441,9 +450,9 @@ if True:
                     if mental_health < 0:
                         grade -= 1
                         draw_grade_rectangle()
+                        wall_turtle.clear()
                     mental_health -= 1
                     draw_text_m()
-                    wall_turtle.clear()
                     t_text_m.clear()
                     count -= 1
                 elif collide:

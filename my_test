@@ -207,6 +207,7 @@ if True:
         level_turtlles_dict = {}
 
     def clear_game():
+        print('clear_game runs')
         for i in enemy_group:
             i.hideturtle()
             i.goto(500, 500)
@@ -479,11 +480,12 @@ if True:
         move_val = 1
         end_val = 1020
         s.update()
+        for i in stamp_ids:
+            explosion.clearstamp(i)
+
         if grade < 1:
             death_screen()
         
-        for i in stamp_ids:
-            explosion.clearstamp(i)
         if threshold % enemy_val == 0:
             spawn_enemy()
             if tick_speed > 20:
@@ -491,7 +493,7 @@ if True:
         if threshold % move_val == 0:
             bullet_move()
             enemy_move()
-        if threshold % end_val == 1019:
+        if threshold % end_val == 519:
             play_next_level(0, 0)
         if time > 0:
             s.onclick(shoot)

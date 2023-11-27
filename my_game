@@ -451,9 +451,10 @@ if True:
                         grade -= 1
                         draw_grade_rectangle()
                         wall_turtle.clear()
-                    mental_health -= 1
-                    draw_text_m()
-                    t_text_m.clear()
+                    else:
+                        mental_health -= 1
+                        t_text_m.clear()
+                        draw_text_m()
                     count -= 1
                 elif collide:
                     enemy_die(i, count)

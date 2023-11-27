@@ -204,10 +204,11 @@ if True:
         for i in level_turtles_dict:
             i.hideturtle()
             i.goto(900, 900)
-        level_turtlles_dict = {}
 
     def clear_game():
         print('clear_game runs')
+        global enemy_group
+        global bullet_group
         for i in enemy_group:
             i.hideturtle()
             i.goto(500, 500)
@@ -377,8 +378,6 @@ if True:
             s.setup(width,height)
             s.bgpic("Campus_Map.png")
             for i in level_turtles_dict:
-
-                i.showturtle()
                 i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
                 i.showturtle()
             s.update()
@@ -418,11 +417,13 @@ if True:
 
 
 def next_level(x, y):
+        global enemy_group
+        global bullet_group
         global curr_level
         enemy_group = []
         bullet_group = []
-        image_set_up(curr_level)
         clear_screen()
+        image_set_up(curr_level)
         draw_mental_health_wall()
         draw_grade_rectangle()
         set_up_student()
@@ -576,7 +577,8 @@ if True:
     level_y= [-15, 0, 300, 90, 280, 50, -200, -30, -100, 300, 25, 315]
     level_locations = ['picture1.png', 'picture2.png', 'picture3.png', 'picture4.png', 'picture5.png', 'picture6.png', 'picture7.png', 'picture8.png', 'picture9.png', 'picture10.png']
 
-
+    global enemy_group
+    global bullet_group
     enemy_group = []
     bullet_group = []
 

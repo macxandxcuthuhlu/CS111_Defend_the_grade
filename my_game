@@ -204,9 +204,11 @@ if True:
         for i in level_turtles_dict:
             i.hideturtle()
             i.goto(900, 900)
-        level_turtlles_dict = {}
 
     def clear_game():
+        print('clear_game runs')
+        global enemy_group
+        global bullet_group
         for i in enemy_group:
             i.hideturtle()
             i.goto(500, 500)
@@ -219,6 +221,7 @@ if True:
         t_text_m.clear()
         t_text_t.clear()
         wall_turtle.clear()
+        cs_student.clear()
         rect_draw.clear()
         rect_draw_1.clear()
 
@@ -376,8 +379,6 @@ if True:
             s.setup(width,height)
             s.bgpic("Campus_Map.png")
             for i in level_turtles_dict:
-
-                i.showturtle()
                 i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
                 i.showturtle()
             s.update()
@@ -417,11 +418,13 @@ if True:
 
 
 def next_level(x, y):
+        global enemy_group
+        global bullet_group
         global curr_level
         enemy_group = []
         bullet_group = []
-        image_set_up(curr_level)
         clear_screen()
+        image_set_up(curr_level)
         draw_mental_health_wall()
         draw_grade_rectangle()
         set_up_student()
@@ -430,7 +433,7 @@ def next_level(x, y):
         draw_text_m()
         draw_text_g()
         s.update()
-        game = run_level()
+        run_level()
 
 
               
@@ -479,11 +482,12 @@ if True:
         move_val = 1
         end_val = 1020
         s.update()
+        for i in stamp_ids:
+            explosion.clearstamp(i)
+
         if grade < 1:
             death_screen()
         
-        for i in stamp_ids:
-            explosion.clearstamp(i)
         if threshold % enemy_val == 0:
             spawn_enemy()
             if tick_speed > 20:
@@ -491,7 +495,7 @@ if True:
         if threshold % move_val == 0:
             bullet_move()
             enemy_move()
-        if threshold % end_val == 1019:
+        if threshold % end_val == 519:
             play_next_level(0, 0)
         if time > 0:
             s.onclick(shoot)
@@ -525,7 +529,6 @@ if True:
         draw_explosion(enemy.xcor(), enemy.ycor())
         enemy.penup()
         enemy.goto(1000,1000)
-        enemy = enemy
         enemy_group.pop(count)
 
     def did_collision_missile(enemy):
@@ -574,7 +577,8 @@ if True:
     level_y= [-15, 0, 300, 90, 280, 50, -200, -30, -100, 300, 25, 315]
     level_locations = ['picture1.png', 'picture2.png', 'picture3.png', 'picture4.png', 'picture5.png', 'picture6.png', 'picture7.png', 'picture8.png', 'picture9.png', 'picture10.png']
 
-
+    global enemy_group
+    global bullet_group
     enemy_group = []
     bullet_group = []
 

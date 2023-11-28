@@ -39,8 +39,20 @@ if True:
             rand_num = random.randint(0, 10)
         file_name = str(rand_num) + 'i.txt'
         rand_nums.append(rand_num)
-        info_screen(file_name, 170, 450, play_next_level)
+        info_screen(file_name, 170, 450, random_event_1)
 
+    def random_event_1(x, y):
+        rand_num = random.randint(0, 10)
+        while rand_num in rand_nums:
+            rand_num = random.randint(0, 10)
+        file_name = str(rand_num) + 'e.txt'
+        rand_nums.append(rand_num)
+        event_screen(file_name, 170, 450, play_next_level, rest)
+
+    def rest(x, y):
+        global mental_health 
+        mental_health += 1
+        play_next_level
 
 
 #drawing functions

@@ -14,6 +14,7 @@ if True:
         global mental_health
         global grade
         global num_levels
+        global wake_ups
         clear_intro()
         global wake_ups
         wake_ups += 1
@@ -465,6 +466,8 @@ if True:
     def never_woke_up(x, y):
         clear_intro()
         clear_game()
+        global wake_ups
+        wake_ups = 0
         global num_levels 
         num_levels = 6
         image_name = 'Campus_Map.png'
@@ -743,6 +746,7 @@ if True:
     global left_bound
     global bottom_bound
     global upward_bound
+    wake_ups = 0
     left_bound = -400
     upward_bound = 200
     bottom_bound = -200

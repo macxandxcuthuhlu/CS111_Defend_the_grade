@@ -221,6 +221,7 @@ if True:
         for i in level_turtles_dict:
             i.hideturtle()
             i.goto(900, 900)
+        t_text_l.clear()
 
     def clear_game():
         global threshold
@@ -353,6 +354,9 @@ if True:
             global num_levels
             global curr_level
             clear_intro()
+            t_text_l.goto(0, 300)
+            t_text_l.pencolor('black')
+            t_text_l.write('Click on a level', align='center', font=('arial', 22, 'normal'))
             num_list = []
             width, height = set_screen('Campus_Map.png')
             s.setup(width,height)
@@ -707,6 +711,9 @@ if True:
     t_text_m.hideturtle()
     t_text_g.hideturtle()
     t_text_t.hideturtle()
+    t_text_l = turtle.Turtle()
+    t_text_l.penup()
+    t_text_l.hideturtle()
 
     turtle.hideturtle()
 

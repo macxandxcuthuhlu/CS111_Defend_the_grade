@@ -193,7 +193,7 @@ if True:
         start_button.goto(0, 0)
         global num_levels 
         num_levels = 6
-        start_button.onclick(play_first_level)
+        start_button.onclick(wake_up)
         s.update()
 
     def out_of_time(x,y):
@@ -452,12 +452,12 @@ if True:
     def after_winning(x, y):
         global num_levels 
         num_levels = 6
-        info_screen('best_end.txt', 100, 500, start)
+        info_screen('best_end.txt', 100, 500, wake_up)
 
     def reject_ending(x,y):
         clear_intro()
         clear_game()
-        event_screen('reject_ending.txt', 160, 500, start, game_end)
+        event_screen('reject_ending.txt', 160, 500, wake_up, game_end)
 
 
     def never_woke_up(x, y):
@@ -470,20 +470,20 @@ if True:
         width, height = set_screen(image_name)
         s.setup(width,height)
         s.bgpic('black_campus.png')
-        t_text.goto(-20,80)
+        t_text.goto(0,235)
         line_list = read_files('never_wake.txt')
-        t_text.pencolor("red")
+        t_text.setheading(270)
+        t_text.pencolor("IndianRed1")
         for i in line_list:
-            t_text.write(i, align='center', font=('arial', 25, 'normal'))
-            t_text.setheading(270)
-            t_text.forward(15)
+            t_text.write(i, align='center', font=('arial', 17, 'normal'))
+            t_text.forward(20)
         start_button.shapesize(5)
         start_button.penup()
-        start_button.goto(100, -107)
+        start_button.goto(100, -157)
         start_button.showturtle()
         start_button.onclick(play_first_level)
         reject_button.penup()
-        reject_button.goto(100, -145)
+        reject_button.goto(100, -195)
         start_button.showturtle()
         reject_button.showturtle()
         reject_button.onclick(death_screen)
@@ -491,13 +491,13 @@ if True:
 
 
 
-    def death_screen():
+    def death_screen(x, y):
         clear_screen()
         clear_game()
         global num_levels 
         num_levels = 6
         file_name = str(random.randint(0, 5)) + '.txt'
-        event_screen(file_name, 170, 450, play_first_level, game_end)
+        event_screen(file_name, 170, 450, wake_up, game_end)
 
   
             
@@ -582,7 +582,7 @@ if True:
         if threshold % end_val == 319:
             play_next_level(0, 0)
         if grade < 1:
-            death_screen()
+            death_screen(0, 0)
         
         if threshold % move_val == 0:
             bullet_move()

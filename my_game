@@ -405,9 +405,7 @@ if True:
             i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
             i.showturtle()
             check += level_turtles_dict[i]
-        print(check)
         if check == 0:
-            print('why hello there')
             winning_screen()
         s.update()
             
@@ -420,7 +418,6 @@ if True:
 
 if True:
     def winning_screen():
-        print('howdy')
         image = 'Celebration.png'
         width, height = set_screen(image)
         s.setup(width,height)

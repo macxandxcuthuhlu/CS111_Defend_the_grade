@@ -355,7 +355,7 @@ if True:
                 number = random.randint(0, len(level_number) - 1)
                 while number in num_list:
                     number = random.randint(0, len(level_number) - 1)
-                level_turtles_dict[i] = level_number[number]
+                level_turtles_dict[i] = number
                 num_list.append(number)
                 i.hideturtle()
                 i.penup()
@@ -501,7 +501,7 @@ if True:
     def run_level():
         global threshold
         global tick_speed
-        enemy_val = 7
+        enemy_val = 8
         move_val = 1
         end_val = 1020
         s.update()
@@ -533,8 +533,8 @@ if True:
         global bottom_bound
         global upward_bound
 
-        enemy_determination = random.randint(0, 30)
-        if enemy_determination < 10:
+        enemy_determination = random.randint(0, 34)
+        if enemy_determination < 8:
             assignment = turtle.Turtle()
             assignment.shape('assignment.gif')
             assignment.shapesize(5,5,5)
@@ -545,7 +545,7 @@ if True:
             assignment.showturtle()
 
             enemy_group.append(assignment)
-        elif enemy_determination < 13:
+        elif enemy_determination < 11:
             movie = turtle.Turtle()
             movie.shape('movie.gif')
             movie.shapesize(5,5,5)
@@ -554,8 +554,17 @@ if True:
             movie.goto(left_bound, random.randint(bottom_bound, upward_bound))
             movie.setheading(0)
             movie.showturtle()
+        elif enemy_determination < 16:
+            paper = turtle.Turtle()
+            paper.shape('paper.gif')
+            paper.shapesize(5,5,5)
+            paper.hideturtle()
+            paper.penup()
+            paper.goto(left_bound, random.randint(bottom_bound, upward_bound))
+            paper.setheading(0)
+            paper.showturtle()
 
-            enemy_group.append(movie)
+            enemy_group.append(paper)
 
 
     def enemy_die(enemy, count):
@@ -662,6 +671,7 @@ if True:
     bottom_bound = -200
     turtle.addshape('assignment.gif')
     turtle.addshape('movie.gif')
+    turtle.addshape('paper.gif')
 
     global wake_ups
     wake_ups = 0

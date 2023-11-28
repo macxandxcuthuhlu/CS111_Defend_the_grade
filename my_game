@@ -34,17 +34,17 @@ if True:
             event_screen('wake_up.txt', 170, 450, play_first_level, never_woke_up)
 
     def random_event():
-        rand_num = random.randint(0, 10)
+        rand_num = random.randint(1, 10)
         while rand_num in rand_nums:
-            rand_num = random.randint(0, 10)
+            rand_num = random.randint(1, 10)
         file_name = str(rand_num) + 'i.txt'
         rand_nums.append(rand_num)
         info_screen(file_name, 170, 450, random_event_1)
 
     def random_event_1(x, y):
-        rand_num = random.randint(0, 10)
-        while rand_num in rand_nums:
-            rand_num = random.randint(0, 10)
+        global random_counter
+        rand_num = rand_nums[random_counter]
+        random_counter += 1
         file_name = str(rand_num) + 'e.txt'
         rand_nums.append(rand_num)
         event_screen(file_name, 170, 450, play_next_level, rest)
@@ -508,7 +508,7 @@ if True:
         clear_game()
         global num_levels 
         num_levels = 6
-        file_name = str(random.randint(0, 5)) + '.txt'
+        file_name = str(random.randint(1, 6)) + '.txt'
         event_screen(file_name, 170, 450, wake_up, game_end)
 
   
@@ -527,8 +527,8 @@ if True:
                 if collides:
                     enemy_die(i, count)
                     if i.shape() == 'assignment.gif' or i.shape() == 'paper.gif':
-                        if mental_health < 0:
-                            draw_text_m()
+                        if mental_health < 1:
+                            t_text_m.clear()
                             grade -= 1
                             draw_grade_rectangle()
                             wall_turtle.clear()
@@ -700,6 +700,8 @@ if True:
     level_y= [-15, 0, 300, 90, 280, 50, -200, -30, -100, 300, 25, 315]
     level_locations = ['picture1.png', 'picture2.png', 'picture3.png', 'picture4.png', 'picture5.png', 'picture6.png', 'picture7.png', 'picture8.png', 'picture9.png', 'picture10.png']
     rand_nums = []
+    global random_counter
+    random_counter = 0
 
     global enemy_group
     global bullet_group

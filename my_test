@@ -14,7 +14,6 @@ if True:
         global mental_health
         global grade
         global num_levels
-        global wake_ups
         clear_intro()
         global wake_ups
         wake_ups += 1
@@ -35,13 +34,25 @@ if True:
             event_screen('wake_up.txt', 170, 450, play_first_level, never_woke_up)
 
     def random_event():
-        rand_num = random.randint(0, 10)
+        rand_num = random.randint(1, 10)
         while rand_num in rand_nums:
-            rand_num = random.randint(0, 10)
+            rand_num = random.randint(1, 10)
         file_name = str(rand_num) + 'i.txt'
         rand_nums.append(rand_num)
-        info_screen(file_name, 170, 450, play_next_level)
+        info_screen(file_name, 170, 450, random_event_1)
 
+    def random_event_1(x, y):
+        global random_counter
+        rand_num = rand_nums[random_counter]
+        random_counter += 1
+        file_name = str(rand_num) + 'e.txt'
+        rand_nums.append(rand_num)
+        event_screen(file_name, 170, 450, play_next_level, rest)
+
+    def rest(x, y):
+        global mental_health 
+        mental_health += 1
+        play_next_level(0, 0)
 
 
 #drawing functions
@@ -239,6 +250,9 @@ if True:
         for i in bullet_group:
             i.hideturtle()
             i.goto(500, 500)
+        for i in every_moving_turtle:
+            i.hideturtle()
+            i.goto(600, 600)
         threshold = 0
         bullet_group = []
         enemy_group = []
@@ -356,9 +370,11 @@ if True:
 
 
     def play_first_level(x, y):
+            global the_end
             global game
             global num_levels
             global curr_level
+            the_end = 0
             clear_intro()
             t_text_l.goto(0, 300)
             t_text_l.pencolor('black')
@@ -452,7 +468,7 @@ if True:
     
     def after_winning(x, y):
         clear_intro()
-        clear_game()
+        clear_game
         global num_levels 
         num_levels = 6
         info_screen('best_end.txt', 100, 500, wake_up)
@@ -466,9 +482,9 @@ if True:
     def never_woke_up(x, y):
         clear_intro()
         clear_game()
-        global wake_ups
-        wake_ups = 0
         global num_levels 
+        global wake_ups 
+        wake_ups = 0
         num_levels = 6
         image_name = 'Campus_Map.png'
         make_black(image_name)
@@ -493,8 +509,6 @@ if True:
         reject_button.showturtle()
         reject_button.onclick(death_screen)
         s.update()
-        t_text.clear()
-        t_text.pencolor('white')
 
 
 
@@ -503,7 +517,7 @@ if True:
         clear_game()
         global num_levels 
         num_levels = 6
-        file_name = str(random.randint(0, 5)) + '.txt'
+        file_name = str(random.randint(1, 5)) + '.txt'
         event_screen(file_name, 170, 450, wake_up, game_end)
 
   
@@ -522,8 +536,8 @@ if True:
                 if collides:
                     enemy_die(i, count)
                     if i.shape() == 'assignment.gif' or i.shape() == 'paper.gif':
-                        if mental_health < 0:
-                            draw_text_m()
+                        if mental_health < 1:
+                            t_text_m.clear()
                             grade -= 1
                             draw_grade_rectangle()
                             wall_turtle.clear()
@@ -580,31 +594,34 @@ if True:
     def run_level():
         global threshold
         global tick_speed
-        enemy_val = 8
+        global the_end
+        enemy_val = 1
         move_val = 1
         end_val = 1020
         s.update()
-        for i in stamp_ids:
-            explosion.clearstamp(i)
-        if threshold % end_val == 319:
-            play_next_level(0, 0)
-        if grade < 1:
-            death_screen(0, 0)
-        
-        if threshold % move_val == 0:
-            bullet_move()
-            enemy_move()
-        if threshold % enemy_val == 0:
-            spawn_enemy()
-            if tick_speed > 30:
-                tick_speed -=1
-        if time > 0:
-            s.onclick(shoot)
-        else:
-            time_turt.clear()
-            s.onclick(out_of_time)
-        threshold += 1
-        s.ontimer(run_level, tick_speed)
+        if the_end == 0:
+            for i in stamp_ids:
+                explosion.clearstamp(i)
+            if threshold % end_val == 1000:
+                play_next_level(0, 0)
+            if grade < 1:
+                death_screen(0, 0)
+                the_end += 1
+            
+            if threshold % move_val == 0:
+                bullet_move()
+                enemy_move()
+            if threshold % enemy_val == 0:
+                spawn_enemy()
+                if tick_speed > 30:
+                    tick_speed -=1
+            if time > 0:
+                s.onclick(shoot)
+            else:
+                time_turt.clear()
+                s.onclick(out_of_time)
+            threshold += 1
+            s.ontimer(run_level, tick_speed)
 
     def spawn_enemy():
         global left_bound
@@ -623,6 +640,7 @@ if True:
             assignment.showturtle()
 
             enemy_group.append(assignment)
+            every_moving_turtle.append(assignment)
         elif enemy_determination < 11:
             movie = turtle.Turtle()
             movie.shape('movie.gif')
@@ -633,6 +651,7 @@ if True:
             movie.setheading(0)
             movie.showturtle()
             enemy_group.append(movie)
+            every_moving_turtle.append(movie)
         elif enemy_determination < 16:
             paper = turtle.Turtle()
             paper.shape('paper.gif')
@@ -644,6 +663,7 @@ if True:
             paper.showturtle()
 
             enemy_group.append(paper)
+            every_moving_turtle.append(paper)
 
 
     def enemy_die(turtle, count):
@@ -675,6 +695,7 @@ if True:
         missile.showturtle()
         missile.setheading(missile.towards(x,y))
         bullet_group.append(missile)
+        every_moving_turtle.append(missile)
         time -= 1
         draw_time_rectangle()
 
@@ -695,6 +716,8 @@ if True:
     level_y= [-15, 0, 300, 90, 280, 50, -200, -30, -100, 300, 25, 315]
     level_locations = ['picture1.png', 'picture2.png', 'picture3.png', 'picture4.png', 'picture5.png', 'picture6.png', 'picture7.png', 'picture8.png', 'picture9.png', 'picture10.png']
     rand_nums = []
+    global random_counter
+    random_counter = 0
 
     global enemy_group
     global bullet_group
@@ -746,7 +769,6 @@ if True:
     global left_bound
     global bottom_bound
     global upward_bound
-    wake_ups = 0
     left_bound = -400
     upward_bound = 200
     bottom_bound = -200
@@ -764,6 +786,9 @@ if True:
     global num_levels
     num_levels = 6
     
+    every_moving_turtle = []
+    global the_end
+    the_end = 0
 
     global grade
     grade = 100

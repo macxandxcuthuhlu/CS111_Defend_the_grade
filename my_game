@@ -377,8 +377,10 @@ if True:
         global game
         global num_levels
         global curr_level
+        global time
         clear_intro()
         clear_game()
+        time += 28
         check = 0
         for i in level_turtles_dict:
             if level_turtles_dict[i] == curr_level:
@@ -430,6 +432,7 @@ def next_level(x, y):
         global curr_level
         enemy_group = []
         bullet_group = []
+        
         clear_screen()
         image_set_up(curr_level)
         draw_mental_health_wall()

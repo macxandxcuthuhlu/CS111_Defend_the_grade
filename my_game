@@ -7,9 +7,6 @@ import random
 import math
 from PIL import Image
 
-#start up screens / end screen / death screen
-
-
 
 #event functions
 if True:
@@ -39,6 +36,7 @@ if True:
     def random_event():
         file_name = str(random.randint(0, 10)) + 'i.txt'
         info_screen(file_name, 170, 450, play_next_level)
+
 
 #drawing functions
 if True:
@@ -175,7 +173,6 @@ if True:
         wall_turtle.end_fill()
         wall_turtle.setheading(0)
     
-   
 
 #basic helper functions
 if True:
@@ -421,7 +418,6 @@ if True:
                 s.update()
 
 
-
 if True:
     def winning_screen():
         print('howdy')
@@ -491,28 +487,7 @@ if True:
         file_name = str(random.randint(0, 5)) + '.txt'
         event_screen(file_name, 170, 450, start, game_end)
 
-
-def next_level(x, y):
-        global enemy_group
-        global bullet_group
-        global curr_level
-        enemy_group = []
-        bullet_group = []
-        
-        clear_screen()
-        image_set_up(curr_level)
-        draw_mental_health_wall()
-        draw_grade_rectangle()
-        set_up_student()
-        draw_time_rectangle()
-        draw_text_t()
-        draw_text_m()
-        draw_text_g()
-        s.update()
-        run_level()
-
-
-              
+  
             
 if True:
     if True:
@@ -563,6 +538,25 @@ if True:
                 if i.xcor() < -600:
                     i.hideturtle()
                     bullet_group.pop(counter)
+
+    def next_level(x, y):
+        global enemy_group
+        global bullet_group
+        global curr_level
+        enemy_group = []
+        bullet_group = []
+        
+        clear_screen()
+        image_set_up(curr_level)
+        draw_mental_health_wall()
+        draw_grade_rectangle()
+        set_up_student()
+        draw_time_rectangle()
+        draw_text_t()
+        draw_text_m()
+        draw_text_g()
+        s.update()
+        run_level()
 
     def run_level():
         global threshold
@@ -667,7 +661,6 @@ if True:
         draw_time_rectangle()
 
 
-
 #main thats starts code
 if True:
 
@@ -747,9 +740,6 @@ if True:
 
     global num_levels
     num_levels = 6
-
-
-
     
 
     global grade

@@ -467,7 +467,7 @@ if True:
         make_black(image_name)
         width, height = set_screen(image_name)
         s.setup(width,height)
-        s.bgpic(black_campus.png)
+        s.bgpic('black_campus.png')
         t_text.goto(-20,80)
         line_list = read_files('never_wake.txt')
         t_text.pencolor("red")
@@ -676,8 +676,6 @@ if True:
         if game != 'over':
             if num_levels == 6:
                 event_screen("file_name.txt", 165, 480, wake_up, reject_ending)
-            elif num_levels > 0:
-                play_game()
 
 
     level_list = []

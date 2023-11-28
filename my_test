@@ -16,21 +16,27 @@ if True:
     def wake_up(x, y):
         global mental_health
         global grade
+        global num_levels
         clear_intro()
         global wake_ups
         wake_ups += 1
-        if wake_ups < 3:
+        if wake_ups < 4:
             if wake_ups ==1:
                 info_screen('intro.txt', 170, 450, wake_up)
-            if wake_up == 2:
+            if wake_ups == 2:
                 info_screen('sleep_info.txt', 170, 450, wake_up)
+            if wake_ups == 3:
+                event_screen('wake_up.txt', 170, 450, play_first_level, wake_up)
             
-        elif wake_ups<6:
+        elif wake_ups<7:
             event_screen('wake_up.txt', 170, 450, play_first_level, wake_up)
             grade -= 10
             mental_health += 5
+            num_levels -= 1
         else:
             event_screen('wake_up.txt', 170, 450, play_first_level, death_screen)
+
+    
 
 #drawing functions
 if True:
@@ -165,6 +171,7 @@ if True:
             wall_turtle.forward(2)
         wall_turtle.goto(235, -22)
         wall_turtle.end_fill()
+        wall_turtle.setheading(0)
     
    
 
@@ -206,7 +213,7 @@ if True:
             i.goto(900, 900)
 
     def clear_game():
-        print('clear_game runs')
+        global threshold
         global enemy_group
         global bullet_group
         for i in enemy_group:
@@ -215,12 +222,14 @@ if True:
         for i in bullet_group:
             i.hideturtle()
             i.goto(500, 500)
+        threshold = 0
         bullet_group = []
         enemy_group = []
         t_text_g.clear()
         t_text_m.clear()
         t_text_t.clear()
         wall_turtle.clear()
+        cs_student.hideturtle()
         rect_draw.clear()
         rect_draw_1.clear()
 
@@ -346,7 +355,7 @@ if True:
                 number = random.randint(0, len(level_number) - 1)
                 while number in num_list:
                     number = random.randint(0, len(level_number) - 1)
-                level_turtles_dict[i] = level_number[number]
+                level_turtles_dict[i] = number
                 num_list.append(number)
                 i.hideturtle()
                 i.penup()
@@ -365,41 +374,42 @@ if True:
                     i.onclick(next_level)
             
     def play_next_level(x, y):
-            global game
-            global num_levels
-            global curr_level
-            clear_intro()
-            clear_game()
-            for i in level_turtles_dict:
-                if level_turtles_dict[i] == curr_level:
-                    turtle_to_remove = i
-            level_turtles_dict.pop(i)
-            width, height = set_screen('Campus_Map.png')
-            s.setup(width,height)
-            s.bgpic("Campus_Map.png")
-            for i in level_turtles_dict:
-                i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
-                i.showturtle()
-            s.update()
+        global game
+        global num_levels
+        global curr_level
+        global time
+        clear_intro()
+        clear_game()
+        time += 28
+        check = 0
+        for i in level_turtles_dict:
+            if level_turtles_dict[i] == curr_level:
+                turtle_to_remove = i
+        level_turtles_dict.pop(i)
+        width, height = set_screen('Campus_Map.png')
+        s.setup(width,height)
+        s.bgpic("Campus_Map.png")
+        for i in level_turtles_dict:
+            i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
+            i.showturtle()
+            check += level_turtles_dict[i]
+        if check == 0:
+            winning_screen()
+        s.update()
             
-            while game != 'done':
-                for i in level_turtles_dict:
-                    curr_level = int(level_turtles_dict[i])
-                    i.onclick(next_level)
-                    s.update()
+        while game != 'done':
+            for i in level_turtles_dict:
+                i.onclick(next_level)
+                curr_level = int(level_turtles_dict[i])
+                s.update()
 
-
-    def play_startup_screen():
-        text = turtle.Turtle()
-        text.write("startup Screen is under construction check again later")
-        pass
-    
 
 
 if True:
     def winning_screen():
         text = turtle.Turtle()
         text.write("winning Screen is under construction check again later")
+        s.update()
         pass
     
 
@@ -422,6 +432,7 @@ def next_level(x, y):
         global curr_level
         enemy_group = []
         bullet_group = []
+        
         clear_screen()
         image_set_up(curr_level)
         draw_mental_health_wall()
@@ -432,7 +443,7 @@ def next_level(x, y):
         draw_text_m()
         draw_text_g()
         s.update()
-        game = run_level()
+        run_level()
 
 
               
@@ -450,18 +461,31 @@ if True:
                 collides = did_collision_wall(i)
                 if collides:
                     enemy_die(i, count)
-                    if mental_health < 0:
-                        draw_text_m()
-                        grade -= 1
-                        draw_grade_rectangle()
-                        wall_turtle.clear()
-                    else:
-                        mental_health -= 1
-                        t_text_m.clear()
-                        draw_text_m()
+                    if i.shape() == 'assignment.gif' or i.shape() == 'paper.gif':
+                        if mental_health < 0:
+                            draw_text_m()
+                            grade -= 1
+                            draw_grade_rectangle()
+                            wall_turtle.clear()
+                        else:
+                            mental_health -= 1
+                            t_text_m.clear()
+                            draw_text_m()
+                    elif i.shape() == 'movie.gif':
+                        if mental_health > 0:
+                            mental_health -= 1
+                            t_text_m.clear()
+                            draw_text_m()
                     count -= 1
                 elif collide:
                     enemy_die(i, count)
+                    if i.shape() == 'movie.gif':
+                        if mental_health <= 0:
+                            draw_mental_health_wall()
+                        mental_health += 2
+                        t_text_m.clear()
+                        draw_text_m()
+                    
 
                     count -= 1
                 count += 1
@@ -477,7 +501,7 @@ if True:
     def run_level():
         global threshold
         global tick_speed
-        enemy_val = 6
+        enemy_val = 8
         move_val = 1
         end_val = 1020
         s.update()
@@ -489,12 +513,12 @@ if True:
         
         if threshold % enemy_val == 0:
             spawn_enemy()
-            if tick_speed > 20:
+            if tick_speed > 30:
                 tick_speed -=1
         if threshold % move_val == 0:
             bullet_move()
             enemy_move()
-        if threshold % end_val == 519:
+        if threshold % end_val == 219:
             play_next_level(0, 0)
         if time > 0:
             s.onclick(shoot)
@@ -509,8 +533,8 @@ if True:
         global bottom_bound
         global upward_bound
 
-        enemy_determination = random.randint(0, 25)
-        if enemy_determination < 7:
+        enemy_determination = random.randint(0, 34)
+        if enemy_determination < 8:
             assignment = turtle.Turtle()
             assignment.shape('assignment.gif')
             assignment.shapesize(5,5,5)
@@ -521,6 +545,27 @@ if True:
             assignment.showturtle()
 
             enemy_group.append(assignment)
+        elif enemy_determination < 11:
+            movie = turtle.Turtle()
+            movie.shape('movie.gif')
+            movie.shapesize(5,5,5)
+            movie.hideturtle()
+            movie.penup()
+            movie.goto(left_bound, random.randint(bottom_bound, upward_bound))
+            movie.setheading(0)
+            movie.showturtle()
+            enemy_group.append(movie)
+        elif enemy_determination < 16:
+            paper = turtle.Turtle()
+            paper.shape('paper.gif')
+            paper.shapesize(5,5,5)
+            paper.hideturtle()
+            paper.penup()
+            paper.goto(left_bound, random.randint(bottom_bound, upward_bound))
+            paper.setheading(0)
+            paper.showturtle()
+
+            enemy_group.append(paper)
 
 
     def enemy_die(enemy, count):
@@ -528,7 +573,6 @@ if True:
         draw_explosion(enemy.xcor(), enemy.ycor())
         enemy.penup()
         enemy.goto(1000,1000)
-        enemy = enemy
         enemy_group.pop(count)
 
     def did_collision_missile(enemy):
@@ -568,7 +612,6 @@ if True:
                 event_screen("file_name.txt", 165, 480, wake_up, reject_ending)
             elif num_levels > 0:
                 play_game()
-                print('heres the issue')
 
 
     level_list = []
@@ -628,6 +671,8 @@ if True:
     upward_bound = 200
     bottom_bound = -200
     turtle.addshape('assignment.gif')
+    turtle.addshape('movie.gif')
+    turtle.addshape('paper.gif')
 
     global wake_ups
     wake_ups = 0

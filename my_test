@@ -34,8 +34,13 @@ if True:
             event_screen('wake_up.txt', 170, 450, play_first_level, never_woke_up)
 
     def random_event():
-        file_name = str(random.randint(0, 10)) + 'i.txt'
+        rand_num = random.randint(0, 10)
+        while rand_num in rand_nums:
+            rand_num = random.randint(0, 10)
+        file_name = str(rand_num) + 'i.txt'
+        rand_nums.append(rand_num)
         info_screen(file_name, 170, 450, play_next_level)
+
 
 
 #drawing functions
@@ -221,6 +226,7 @@ if True:
         for i in level_turtles_dict:
             i.hideturtle()
             i.goto(900, 900)
+        t_text_l.clear()
 
     def clear_game():
         global threshold
@@ -251,13 +257,13 @@ if True:
                 r, g, b, h = img.getpixel((col,row))
                 average = int((int(r) + g + b)/3)
                 if row > m and row < n:
-                    r = int(0.45*(0.7*average + 0.3*r))
-                    g = int(0.45*(0.7*average + 0.3*g))
-                    b = int(0.45*(0.7*average + 0.3*b))
+                    r = int(0.45*(0.71*average + 0.32*r))
+                    g = int(0.45*(0.71*average + 0.32*g))
+                    b = int(0.45*(0.67*average + 0.26*b))
                 else:
-                    r = int(0.7*average + 0.3*r)
-                    g = int(0.7*average + 0.3*g)
-                    b = int(0.7*average + 0.3*b)
+                    r = int(0.71*average + 0.32*r)
+                    g = int(0.71*average + 0.32*g)
+                    b = int(0.67*average + 0.26*b)
                 img.putpixel((col,row), (r,g,b,h))
         img.save("grey_campus.png")
 
@@ -353,6 +359,9 @@ if True:
             global num_levels
             global curr_level
             clear_intro()
+            t_text_l.goto(0, 300)
+            t_text_l.pencolor('black')
+            t_text_l.write('Click on a level', align='center', font=('arial', 22, 'normal'))
             num_list = []
             width, height = set_screen('Campus_Map.png')
             s.setup(width,height)
@@ -405,9 +414,7 @@ if True:
             i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
             i.showturtle()
             check += level_turtles_dict[i]
-        print(check)
         if check == 0:
-            print('why hello there')
             winning_screen()
         s.update()
             
@@ -420,7 +427,6 @@ if True:
 
 if True:
     def winning_screen():
-        print('howdy')
         image = 'Celebration.png'
         width, height = set_screen(image)
         s.setup(width,height)
@@ -637,7 +643,7 @@ if True:
 
     def did_collision_missile(enemy):
         for missile in bullet_group:
-            if (math.sqrt(math.pow(missile.xcor() - enemy.xcor(), 2)+ math.pow(missile.ycor() - enemy.ycor(), 2))) < 25:
+            if (math.sqrt(math.pow(missile.xcor() - enemy.xcor(), 2)+ math.pow(missile.ycor() - enemy.ycor(), 2))) < 28:
                 return True
         return False
 
@@ -676,6 +682,7 @@ if True:
     level_x = [-15, 0, -100, -50, 90, -10, -10, -50, 60, 90, 100, -30]
     level_y= [-15, 0, 300, 90, 280, 50, -200, -30, -100, 300, 25, 315]
     level_locations = ['picture1.png', 'picture2.png', 'picture3.png', 'picture4.png', 'picture5.png', 'picture6.png', 'picture7.png', 'picture8.png', 'picture9.png', 'picture10.png']
+    rand_nums = []
 
     global enemy_group
     global bullet_group
@@ -710,6 +717,9 @@ if True:
     t_text_m.hideturtle()
     t_text_g.hideturtle()
     t_text_t.hideturtle()
+    t_text_l = turtle.Turtle()
+    t_text_l.penup()
+    t_text_l.hideturtle()
 
     turtle.hideturtle()
 
@@ -740,9 +750,6 @@ if True:
 
     global num_levels
     num_levels = 6
-
-
-
     
 
     global grade

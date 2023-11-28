@@ -450,6 +450,8 @@ if True:
         s.update()
     
     def after_winning(x, y):
+        clear_intro()
+        clear_game()
         global num_levels 
         num_levels = 6
         info_screen('best_end.txt', 100, 500, wake_up)
@@ -488,6 +490,8 @@ if True:
         reject_button.showturtle()
         reject_button.onclick(death_screen)
         s.update()
+        t_text.clear()
+        t_text.pencolor('white')
 
 
 

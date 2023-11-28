@@ -261,9 +261,9 @@ if True:
                     g = int(0.45*(0.7*average + 0.3*g))
                     b = int(0.45*(0.7*average + 0.3*b))
                 else:
-                    r = int(0.7*average + 0.3*r)
-                    g = int(0.7*average + 0.3*g)
-                    b = int(0.7*average + 0.3*b)
+                    r = int(0.79*average + 0.35*r)
+                    g = int(0.79*average + 0.35*g)
+                    b = int(0.65*average + 0.25*b)
                 img.putpixel((col,row), (r,g,b,h))
         img.save("grey_campus.png")
 
@@ -643,7 +643,7 @@ if True:
 
     def did_collision_missile(enemy):
         for missile in bullet_group:
-            if (math.sqrt(math.pow(missile.xcor() - enemy.xcor(), 2)+ math.pow(missile.ycor() - enemy.ycor(), 2))) < 25:
+            if (math.sqrt(math.pow(missile.xcor() - enemy.xcor(), 2)+ math.pow(missile.ycor() - enemy.ycor(), 2))) < 28:
                 return True
         return False
 

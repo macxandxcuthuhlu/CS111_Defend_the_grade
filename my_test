@@ -193,7 +193,7 @@ if True:
         start_button.goto(0, 0)
         global num_levels 
         num_levels = 6
-        start_button.onclick(start)
+        start_button.onclick(play_first_level)
         s.update()
 
     def out_of_time(x,y):
@@ -406,7 +406,7 @@ if True:
         for i in level_turtles_dict:
             if level_turtles_dict[i] == curr_level:
                 turtle_to_remove = i
-        level_turtles_dict.pop(i)
+        level_turtles_dict.pop(turtle_to_remove)
         width, height = set_screen('Campus_Map.png')
         s.setup(width,height)
         s.bgpic("Campus_Map.png")
@@ -481,7 +481,13 @@ if True:
         start_button.penup()
         start_button.goto(100, -107)
         start_button.showturtle()
-        start_button.onclick(start)
+        start_button.onclick(play_first_level)
+        reject_button.penup()
+        reject_button.goto(100, -145)
+        start_button.showturtle()
+        reject_button.showturtle()
+        reject_button.onclick(death_screen)
+        s.update()
 
 
 
@@ -491,7 +497,7 @@ if True:
         global num_levels 
         num_levels = 6
         file_name = str(random.randint(0, 5)) + '.txt'
-        event_screen(file_name, 170, 450, start, game_end)
+        event_screen(file_name, 170, 450, play_first_level, game_end)
 
   
             
@@ -573,19 +579,18 @@ if True:
         s.update()
         for i in stamp_ids:
             explosion.clearstamp(i)
-
+        if threshold % end_val == 319:
+            play_next_level(0, 0)
         if grade < 1:
             death_screen()
         
+        if threshold % move_val == 0:
+            bullet_move()
+            enemy_move()
         if threshold % enemy_val == 0:
             spawn_enemy()
             if tick_speed > 30:
                 tick_speed -=1
-        if threshold % move_val == 0:
-            bullet_move()
-            enemy_move()
-        if threshold % end_val == 319:
-            play_next_level(0, 0)
         if time > 0:
             s.onclick(shoot)
         else:
@@ -634,11 +639,11 @@ if True:
             enemy_group.append(paper)
 
 
-    def enemy_die(enemy, count):
-        enemy.hideturtle()
-        draw_explosion(enemy.xcor(), enemy.ycor())
-        enemy.penup()
-        enemy.goto(1000,1000)
+    def enemy_die(turtle, count):
+        turtle.hideturtle()
+        draw_explosion(turtle.xcor(), turtle.ycor())
+        turtle.penup()
+        turtle.goto(1000,1000)
         enemy_group.pop(count)
 
     def did_collision_missile(enemy):

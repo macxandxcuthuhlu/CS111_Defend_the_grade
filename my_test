@@ -393,7 +393,9 @@ if True:
             i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
             i.showturtle()
             check += level_turtles_dict[i]
+        print(check)
         if check == 0:
+            print('why hello there')
             winning_screen()
         s.update()
             
@@ -407,11 +409,32 @@ if True:
 
 if True:
     def winning_screen():
-        text = turtle.Turtle()
-        text.write("winning Screen is under construction check again later")
+        print('howdy')
+        image = 'Celebration.png'
+        width, height = set_screen(image)
+        s.setup(width,height)
+        s.bgpic(image)
+        t_text.hideturtle()
+        t_text.penup()
+        t_text.goto(0,120)
+        line_list = read_files('congrats.txt')
+        t_text.pencolor("blue")
+        for i in line_list:
+            t_text.write(i, align='center', font=('arial', 25, 'normal'))
+            t_text.setheading(270)
+            t_text.forward(15)
+        start_button.shapesize(5)
+        start_button.penup()
+        start_button.goto(100, -100)
+        start_button.showturtle()
         s.update()
-        pass
+        start_button.onclick(after_winning)
+        s.update()
     
+    def after_winning(x, y):
+        global num_levels 
+        num_levels = 6
+        info_screen('best_end.txt', 100, 500, start)
 
     def reject_ending(x,y):
         clear_intro()
@@ -608,7 +631,7 @@ if True:
 
     def start(x, y):
         if game != 'over':
-            if num_levels == 5:
+            if num_levels == 6:
                 event_screen("file_name.txt", 165, 480, wake_up, reject_ending)
             elif num_levels > 0:
                 play_game()
@@ -682,7 +705,10 @@ if True:
 
 
     global num_levels
-    num_levels = 5
+    num_levels = 6
+
+
+
     
 
     global grade

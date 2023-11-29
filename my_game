@@ -1,15 +1,20 @@
-# Final Project
-# CS 111, Hayes & Reckinger
+# Final Project - Defend the Grade
+#Sam Stuckey
+# CS 111, Hayes & Reckinger 12:00 PM section
+#A program which is a time management game which leads you through a bunch of choices that affect your stats which is important for the levels which consist of a student turlte throwing blue cirles that represent time at enemies on the screen based on mouse click, and then gives the appropriate ending screen wether the game was won or lost.
 
 
-import turtle
+import turtle#all of the great imports
 import random
 import math
 from PIL import Image
 
+#if true statements are to group related functions into section for easier mobility and searching later on
 
-#event functions
+
+#random event functions that also give info
 if True:
+    #provides the start of the game and the first few options to wake up
     def wake_up(x, y):
         global mental_health
         global grade
@@ -17,7 +22,7 @@ if True:
         clear_intro()
         global wake_ups
         wake_ups += 1
-        if wake_ups < 4:
+        if wake_ups < 4:#way to control progression
             if wake_ups ==1:
                 info_screen('intro.txt', 170, 450, wake_up)
             if wake_ups == 2:
@@ -29,30 +34,33 @@ if True:
             event_screen('wake_up.txt', 170, 450, play_first_level, wake_up)
             grade -= 10
             mental_health += 5
-            num_levels -= 1
+            num_levels -= 1#decreases levels based on how many they sleapt through
         else:
-            event_screen('wake_up.txt', 170, 450, play_first_level, never_woke_up)
+            event_screen('wake_up.txt', 170, 450, play_first_level, never_woke_up)#leads to an ending screen if they choose the incorrect option
 
+    #random choices that pop up after each level
     def random_event():
-        clear_game()
+        clear_game()#annihilates anything on screen 
         clear_intro()
         clear_screen()
         t_text.clear()
+
         rand_num = random.randint(1, 9)
-        while rand_num in rand_nums:
+        while rand_num in rand_nums:#makes sure the same random numbers are not chosen over and over again
             rand_num = random.randint(1, 9)
         file_name = str(rand_num) + 'i.txt'
         rand_nums.append(rand_num)
-        info_screen(file_name, 170, 450, random_event_1)
+        info_screen(file_name, 170, 450, random_event_1)#provides the information pretaining to the random event
 
+    #this is the choice input/screen for the random event
     def random_event_1(x, y):
         global random_counter
         rand_num = rand_nums[random_counter]
-        random_counter += 1
+        random_counter += 1#increases the index of the list the pointer is centered on during following run throughs
         file_name = str(rand_num) + 'e.txt'
         global the_end
         the_end = 0
-        if rand_num <= 5:
+        if rand_num <= 5:#slightly faster than just a bunch of elif statements
             if rand_num == 1:
                 event_screen(file_name, 170, 450, rest, play_next_level)
             elif rand_num == 2:
@@ -76,7 +84,7 @@ if True:
 
 
 
-
+    #the follwing are functions that modify stats than open up the next level
     def rest(x, y):
         global mental_health 
         global time
@@ -152,19 +160,21 @@ if True:
 
 #drawing functions
 if True:
-    def draw_text_m():
+    def draw_text_m():#draws the mental health number inside the wall
         global mental_health
         t_text_m.clear()
         t_text_m.goto(254, -26)
         t_text_m.pencolor("black")
         t_text_m.write(str(mental_health), align='center', font=('arial', 13, 'normal'))
     
+    #draws the word grade beneath the greeen box
     def draw_text_g():
         t_text_g.clear()
         t_text_g.goto(362, 70)
         t_text_g.pencolor("white")
         t_text_g.write('Grade', align='center', font=('arial', 14, 'normal'))
 
+    #draws the word time beneath the time box
     def draw_text_t():
         t_text_t.clear()
         t_text_t.goto(309, 70)
@@ -174,7 +184,7 @@ if True:
 
 
 
-    
+    #draws the green rectangle representing the grade
     def draw_grade_rectangle():
         global grade
         time_line = int(1.6*grade)
@@ -186,7 +196,7 @@ if True:
         rect_draw_1.pencolor('black')
         rect_draw_1.pendown()
         rect_draw_1.fillcolor('green')
-        rect_draw_1.forward(25)
+        rect_draw_1.forward(25)#draws outline
         rect_draw_1.left(90)
         rect_draw_1.forward(160)
         rect_draw_1.left(90)
@@ -206,6 +216,7 @@ if True:
         rect_draw_1.left(90)
         rect_draw_1.end_fill()
 
+    #draws the blue rectangle representing the time
     def draw_time_rectangle():
         global time
         time_line = int(1.6*time)
@@ -217,7 +228,7 @@ if True:
         rect_draw.pencolor('black')
         rect_draw.pendown()
         rect_draw.fillcolor('blue')
-        rect_draw.forward(25)
+        rect_draw.forward(25)#draws outline
         rect_draw.left(90)
         rect_draw.forward(160)
         rect_draw.left(90)
@@ -237,12 +248,14 @@ if True:
         rect_draw.left(90)
         rect_draw.end_fill()
 
+    
+    # draws the mental health wal;
     def draw_mental_health_wall():
         global curr_level
         wall_turtle.hideturtle()
         wall_turtle.penup()
         wall_turtle.goto(250, 0)
-        width, height = set_screen(level_locations[curr_level])
+        width, height = set_screen(level_locations[curr_level])# gets the screen size so it knows how long the wall should be
 
         wall_turtle.pendown()
         wall_turtle.pencolor('black')
@@ -260,13 +273,16 @@ if True:
         wall_turtle.forward(int(height)/2)
         wall_turtle.end_fill()
         wall_turtle.penup()
-        wall_turtle.setheading(270)
+
+        wall_turtle.setheading(270)#gets in position for drawing the heart
         wall_turtle.forward(22)
         wall_turtle.setheading(0)
         wall_turtle.forward(-15)
         wall_turtle.pendown()
         wall_turtle.setheading(80)
         wall_turtle.fillcolor("white")
+
+        #starts drawing the heart
         wall_turtle.begin_fill()
         for i in range(3, 16, 1):
             wall_turtle.forward(4)
@@ -283,17 +299,19 @@ if True:
             wall_turtle.forward(2)
         wall_turtle.goto(235, -22)
         wall_turtle.end_fill()
-        wall_turtle.setheading(0)
-    
+
+        #makes sure it is in the right direction for future drawings
+        wall_turtle.setheading(0) 
 
 #basic helper functions
 if True:
-
+    #nforms the player they are out of ammo
     def out_of_time(x,y):
         time_turt.goto(265, -25)
         time_turt.pencolor("black")
         time_turt.write("Out of Time", align='center', font=('arial', 22, 'normal'))
 
+    #removes the start and reject_buttons
     def clear_intro():
         t_text.clear()
         t_text.penup()
@@ -309,18 +327,21 @@ if True:
         cs_student.goto(350, -100)
         cs_student.showturtle()
 
+
     def set_screen(image):
         img = Image.open(image)
         width = img.width
         height = img.height
         return width, height
 
+    #moves the turtle that represent the different levels off screen
     def clear_screen():
         for i in level_turtles_dict:
             i.hideturtle()
             i.goto(900, 900)
         t_text_l.clear()
 
+    #gets rid of all moving turtles and game ui drawings
     def clear_game():
         global threshold
         global enemy_group
@@ -344,7 +365,9 @@ if True:
         cs_student.hideturtle()
         rect_draw.clear()
         rect_draw_1.clear()
+    
 
+    #makes images a lot more dull with a yellowish tint
     def make_gray(image_name, m, n):
         img = Image.open(image_name)
         width, height = set_screen(image_name)
@@ -353,7 +376,7 @@ if True:
                 r, g, b, h = img.getpixel((col,row))
                 average = int((int(r) + g + b)/3)
                 if row > m and row < n:
-                    r = int(0.45*(0.71*average + 0.32*r))
+                    r = int(0.45*(0.71*average + 0.32*r))#makes it slightly yellowish
                     g = int(0.45*(0.71*average + 0.32*g))
                     b = int(0.45*(0.67*average + 0.26*b))
                 else:
@@ -363,6 +386,7 @@ if True:
                 img.putpixel((col,row), (r,g,b,h))
         img.save("grey_campus.png")
 
+    #makes a dark red image with the same dimensions of inputed image
     def make_black(image_name):
         img = Image.open(image_name)
         width, height = set_screen(image_name)
@@ -377,17 +401,19 @@ if True:
         img.save("black_campus.png")
 
     def read_files(file_name):
-        with open(file_name) as files:
+        with open(file_name) as files:#closes the text files after use to speed things up
             text = files.readlines()
             for i in range(len(text)):
                 text[i] = text[i].strip()
         return text
     
+    #uses stams to draw explosions over dead enemies
     def draw_explosion(x, y):
         explosion.goto(x, y)
         stamp_id = explosion.stamp()
-        stamp_ids.append(stamp_id)
+        stamp_ids.append(stamp_id)#keeps the stamp id so it can be cleared later
     
+    #sets up the bacground image for individual levels
     def image_set_up(num):
         with Image.open(level_locations[num]) as img:
             width = img.width
@@ -395,24 +421,28 @@ if True:
             s.setup(width, height)
         s.bgpic(level_locations[num])
 
-
+#main setup areas like choosing levels and random events/info
 if True:
+    #shows the screen and text for different events
     def event_screen(file_name, col, row, function_level, function_ending):
         image = 'Campus_Map.png'
         width, height = set_screen(image)
         s.setup(width,height)
         make_gray('Campus_Map.png', col, row)
         s.bgpic("grey_campus.png")
+
         t_text.hideturtle()
         t_text.penup()
         t_text.goto(0,120)
         line_list = read_files(file_name)
         t_text.pencolor("white")
+
         for i in line_list:
             t_text.write(i, align='center', font=('arial', 17, 'normal'))
-            t_text.setheading(270)
-            t_text.forward(19)
+            t_text.setheading(270)#faces down
+            t_text.forward(19)#exact size to make it seem like a new line
             s.update()
+
         start_button.shapesize(5)
         start_button.penup()
         start_button.goto(-100, -100)
@@ -420,65 +450,84 @@ if True:
         reject_button.goto(100, -95)
         start_button.showturtle()
         reject_button.showturtle()
+
         s.update()
-        t_text.clear()
+        t_text.clear()#avoids promblem later on if it did not clear
         reject_button.onclick(function_ending)
         start_button.onclick(function_level)
+    
 
+    #smae as events function but only has one way to advance
     def info_screen(file_name, col, row, function_level):
         t_text.clear()
+
         image = 'Campus_Map.png'
         width, height = set_screen(image)
         s.setup(width,height)
         make_gray('Campus_Map.png', col, row)
         s.bgpic("grey_campus.png")
+
         t_text.hideturtle()
         t_text.penup()
         t_text.goto(0,125)
+
         line_list = read_files(file_name)
         t_text.pencolor("white")
+
         for i in line_list:
             t_text.write(i, align='center', font=('arial', 17, 'normal'))
             t_text.setheading(270)
             t_text.forward(19)
             s.update()
+
         start_button.hideturtle()
         start_button.penup()
         start_button.goto(0, -100)
         reject_button.penup()
         start_button.showturtle()
+
         s.update()
         t_text.clear()
+
         start_button.onclick(function_level)
 
 
-
+    #sets up the actual first play screen where someone can select levels
     def play_first_level(x, y):
             global the_end
             global game
             global num_levels
             global curr_level
-            the_end = 0
-            clear_intro()
+            the_end = 0#important for run_levels later on and to restart the game after endings
+
+            clear_intro()#clears the start and reject button
+
             t_text_l.goto(0, 300)
             t_text_l.pencolor('black')
             t_text_l.write('Click on a level', align='center', font=('arial', 22, 'normal'))
+
             num_list = []
+
             width, height = set_screen('Campus_Map.png')
             s.setup(width,height)
             s.bgpic("Campus_Map.png")
-            for i in range(num_levels):
+
+            for i in range(num_levels):#makes turtle names
                 turtle_name = 'level' + str(i+1)
                 level_list.append(turtle_name)
-            for i in level_list:
+
+            for i in level_list:#makes turtles and sets up the dictionary
                 i = turtle.Turtle()
                 level_turtles_dict[i] = 0
-            for i in level_turtles_dict:
+
+            for i in level_turtles_dict:#assigns each turtle a random number 
                 number = random.randint(0, len(level_number) - 1)
                 while number in num_list:
-                    number = random.randint(0, len(level_number) - 1)
+                    number = random.randint(0, len(level_number) - 1)#makes sure two turtles dont get the same random number
+
                 level_turtles_dict[i] = number
-                num_list.append(number)
+                num_list.append(number)#this is for checks later removal
+
                 i.hideturtle()
                 i.penup()
                 i.shape("circle")
@@ -488,7 +537,9 @@ if True:
                 i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
                 i.showturtle()
                 s.update()
-            while game != 'done':
+
+            while game != 'done':#mainly based on old code on how the game works but effectively is an infinite while true loop
+
                 for i in level_turtles_dict:
                     i.showturtle()
                     s.update()
@@ -500,111 +551,140 @@ if True:
         global num_levels
         global curr_level
         global time
+
         clear_intro()
         clear_game()
-        time += 28
-        check = 0
+
+        time += 19#makes game easier
+
+        check = 0 #set up to see if there are any levels left
+
         for i in level_turtles_dict:
             if level_turtles_dict[i] == curr_level:
-                turtle_to_remove = i
+                turtle_to_remove = i#can not remove it from the dict while iterating through so I assign it to a local variable instead
         level_turtles_dict.pop(turtle_to_remove)
+
         width, height = set_screen('Campus_Map.png')
         s.setup(width,height)
         s.bgpic("Campus_Map.png")
-        for i in level_turtles_dict:
+
+        for i in level_turtles_dict:#resets turtles at proper place
             i.goto(level_x[level_turtles_dict[i]], level_y[level_turtles_dict[i]])
             i.showturtle()
             check += level_turtles_dict[i]
+
         if check == 0:
             winning_screen()
+
         s.update()
             
-        while game != 'done':
+        while game != 'done':#functions as a while true for most purposes
             for i in level_turtles_dict:
                 i.onclick(next_level)
                 curr_level = int(level_turtles_dict[i])
+
                 s.update()
 
-
+#ending screens
 if True:
+    #True Final ending
     def game_end(x, y):
-        global game
-        game = 'over'
-        clear_intro()
+        clear_intro()#annihilates everything that dares show itself on the screen
         clear_screen()
         clear_game()
-        image_name = 'Campus_Map.png'
+
+        image_name = 'Campus_Map.png'#sets up background
         make_black(image_name)
         width, height = set_screen(image_name)
         s.setup(width,height)
         s.bgpic('black_campus.png')
+
         t_text.clear()
         t_text.goto(0, 0)
         t_text.write('Continue?', font=('arial', 28, 'normal'))
         start_button.goto(0, 0)
-        global num_levels 
+
+        global num_levels #allows for a fresh start later on
         num_levels = 6
+        global wake_ups
+        wake_ups = 0
+
         start_button.penup()
         start_button.goto(100, -107)
         start_button.showturtle()
         start_button.onclick(wake_up)
         s.update()
 
+    #shows the winning screen
     def winning_screen():
         image = 'Celebration.png'
         width, height = set_screen(image)
         s.setup(width,height)
         s.bgpic(image)
+
         t_text.hideturtle()
         t_text.penup()
         t_text.goto(-20,80)
+
         line_list = read_files('congrats.txt')
         t_text.pencolor("blue")
         for i in line_list:
             t_text.write(i, align='center', font=('arial', 25, 'normal'))
             t_text.setheading(270)
             t_text.forward(15)
+
         start_button.shapesize(5)
         start_button.penup()
         start_button.goto(100, -107)
         start_button.showturtle()
+
         s.update()
+
         while game != 'done':
-            start_button.onclick(after_winning)
+            start_button.onclick(after_winning)#worked like an info page
         s.update()
     
+    #basic ending
     def after_winning(x, y):
         clear_intro()
         clear_game
         global num_levels 
         num_levels = 6
+        global wake_ups
+        wake_ups = 0
         info_screen('best_end.txt', 100, 500, wake_up)
 
+    #basic ending
     def reject_ending(x,y):
         clear_intro()
         clear_game()
         event_screen('reject_ending.txt', 160, 500, wake_up, game_end)
 
-
+    #runs if the person in the beginning doesnt decid to wake up
     def never_woke_up(x, y):
         clear_intro()
         clear_game()
+
         global num_levels 
         global wake_ups 
-        wake_ups = 0
+
+        wake_ups = 0#makes sure the wake up and play_frst_level work as intended
         num_levels = 6
-        image_name = 'Campus_Map.png'
+
+        image_name = 'Campus_Map.png'#sets up background
         make_black(image_name)
         width, height = set_screen(image_name)
         s.setup(width,height)
         s.bgpic('black_campus.png')
+
         t_text.goto(0,235)
         line_list = read_files('never_wake.txt')
         t_text.setheading(270)
-        t_text.pencolor("IndianRed1")
+        t_text.pencolor("IndianRed1")#supposed to feel ominous
         for i in line_list:
             t_text.write(i, align='center', font=('arial', 17, 'normal'))
             t_text.forward(20)
+
         start_button.shapesize(5)
         start_button.penup()
         start_button.goto(100, -157)
@@ -616,54 +696,67 @@ if True:
         reject_button.onclick(death_screen)
         s.update()
         
-
-
-
+    #ending if someone loses normally
     def death_screen(x, y):
-        t_text.clear()
+        t_text.clear()#clears most things from screen
         clear_screen()
         clear_game()
+
         global num_levels 
         num_levels = 6
+        global wake_ups
+        wake_ups = 0
+
         file_name = str(random.randint(1, 5)) + '.txt'
         event_screen(file_name, 170, 450, wake_up, game_end)
 
   
-            
+#runs the levels      
 if True:
+    #moves the turtles
     if True:
+        #moves the enemies
         def enemy_move():
             global grade
             global mental_health
-            count = 0
+
+            count = 0#keeps track of which enemy to removve
+
             for i in enemy_group:
                 
                 i.forward(2)
-                collide = did_collision_missile(i)
+                collide = did_collision_missile(i)#checks to see if the enemies have been hit returns boolean
                 collides = did_collision_wall(i)
+
                 if collides:
-                    enemy_die(i, count)
-                    if i.shape() == 'assignment.gif' or i.shape() == 'paper.gif':
+                    enemy_die(i, count)#function for enemy removal
+
+                    if i.shape() == 'assignment.gif' or i.shape() == 'paper.gif':#specefic stat changes based on enemy type here determined by their shapes
+                        
                         if mental_health < 1:
                             t_text_m.clear()
                             grade -= 1
                             draw_grade_rectangle()
                             wall_turtle.clear()
+
                         else:
                             mental_health -= 1
                             t_text_m.clear()
-                            draw_text_m()
+                            draw_text_m()#updates mental health number
+
                     elif i.shape() == 'movie.gif':
                         if mental_health > 0:
                             mental_health -= 1
                             t_text_m.clear()
                             draw_text_m()
+
                     count -= 1
+
                 elif collide:
                     enemy_die(i, count)
                     if i.shape() == 'movie.gif':
                         if mental_health <= 0:
-                            draw_mental_health_wall()
+                            draw_mental_health_wall()#redraws the mental health because it wuld have been destroyed at this point
                         mental_health += 2
                         t_text_m.clear()
                         draw_text_m()
@@ -672,6 +765,7 @@ if True:
                     count -= 1
                 count += 1
         
+        #simply moves the time circles, and removes them prom list if they are out of bounds
         def bullet_move():
             counter = 0
             for i in bullet_group:
@@ -681,22 +775,27 @@ if True:
                     bullet_group.pop(counter)
 
     def next_level(x, y):
-        global enemy_group
+        global enemy_group#calls them as globals otherwise its sets up a local variable which is very annoying later on
         global bullet_group
         global curr_level
         global num_levels
+
         enemy_group = []
         bullet_group = []
-        num_levels -= 1
+
+        num_levels -= 1#important if play_firs_level is ran after this due to some reason
+
         clear_screen()
         image_set_up(curr_level)
-        draw_mental_health_wall()
+
+        draw_mental_health_wall()#sets up all the game ui elements
         draw_grade_rectangle()
         set_up_student()
         draw_time_rectangle()
         draw_text_t()
         draw_text_m()
         draw_text_g()
+
         s.update()
         run_level()
 
@@ -704,32 +803,43 @@ if True:
         global threshold
         global tick_speed
         global the_end
-        enemy_val = 7
+
+        enemy_val = 7#sets up values that threshold will be modulo byed
         move_val = 1
         end_val = 2020
+
         s.update()
-        if the_end == 0:
-            for i in stamp_ids:
+        if the_end == 0:#stops the function whil running during ending screens and events
+
+            for i in stamp_ids:#clears stamps first incase the nect level starts after this function
                 explosion.clearstamp(i)
-            if threshold % end_val == 2000:
+
+            if threshold % end_val == 2000:#ends the level and starts a random event
+
                 the_end += 1
                 random_event()
-            if grade < 1:
+
+            if grade < 1:#losing screens
                 death_screen(0, 0)
                 the_end += 1
             
             if threshold % move_val == 0:
                 bullet_move()
                 enemy_move()
+
             if threshold % enemy_val == 0:
                 spawn_enemy()
-                if tick_speed > 30:
+
+                if tick_speed > 30:#makes tick speed faster to slowly increase the difiiculty
                     tick_speed -=1
-            if time > 0:
+
+            if time > 0:# only runs the function if ammo is left
                 s.onclick(shoot)
+
             else:
                 time_turt.clear()
                 s.onclick(out_of_time)
+
             threshold += 1
             s.ontimer(run_level, tick_speed)
 
@@ -738,23 +848,26 @@ if True:
         global bottom_bound
         global upward_bound
 
-        enemy_determination = random.randint(0, 30)
+        enemy_determination = random.randint(0, 30)#chooses form and and stat changes of the enemies
+
         if enemy_determination < 9:
             assignment = turtle.Turtle()
             assignment.shape('assignment.gif')
-            assignment.shapesize(5,5,5)
+
             assignment.hideturtle()
             assignment.penup()
             assignment.goto(left_bound, random.randint(bottom_bound, upward_bound))
             assignment.setheading(0)
             assignment.showturtle()
 
-            enemy_group.append(assignment)
-            every_moving_turtle.append(assignment)
+            enemy_group.append(assignment)#adds it to normal movement group
+
+            every_moving_turtle.append(assignment)#adds it to this group to cover bug where enemies stayed spawn after levels end
+
         elif enemy_determination < 11:
             movie = turtle.Turtle()
             movie.shape('movie.gif')
-            movie.shapesize(5,5,5)
+
             movie.hideturtle()
             movie.penup()
             movie.goto(left_bound, random.randint(bottom_bound, upward_bound))
@@ -762,10 +875,11 @@ if True:
             movie.showturtle()
             enemy_group.append(movie)
             every_moving_turtle.append(movie)
+
         elif enemy_determination < 16:
             paper = turtle.Turtle()
             paper.shape('paper.gif')
-            paper.shapesize(5,5,5)
+
             paper.hideturtle()
             paper.penup()
             paper.goto(left_bound, random.randint(bottom_bound, upward_bound))
@@ -776,16 +890,16 @@ if True:
             every_moving_turtle.append(paper)
 
 
-    def enemy_die(turtle, count):
+    def enemy_die(turtle, count):#hides enemy far away, and stops it from moveing
         turtle.hideturtle()
         draw_explosion(turtle.xcor(), turtle.ycor())
         turtle.penup()
         turtle.goto(1000,1000)
         enemy_group.pop(count)
 
-    def did_collision_missile(enemy):
+    def did_collision_missile(enemy):#checks to see how close the enemy is to a missile and returns boolean
         for missile in bullet_group:
-            if (math.sqrt(math.pow(missile.xcor() - enemy.xcor(), 2)+ math.pow(missile.ycor() - enemy.ycor(), 2))) < 28:
+            if (math.sqrt(math.pow(missile.xcor() - enemy.xcor(), 2)+ math.pow(missile.ycor() - enemy.ycor(), 2))) < 28:# could have used the distance function, but I just enjoy this kind better
                 return True
         return False
 
@@ -798,14 +912,20 @@ if True:
         global time
         missile = turtle.Turtle()
         missile.hideturtle()
+
         missile.shape('circle')
         missile.color('blue')
         missile.penup()
+
         missile.goto(302, -24)
+
         missile.showturtle()
-        missile.setheading(missile.towards(x,y))
-        bullet_group.append(missile)
-        every_moving_turtle.append(missile)
+
+        missile.setheading(missile.towards(x,y))#towards gets the angle it needs to be at and set heading sets the turtle direction towards where was clicked
+
+        bullet_group.append(missile)#adds to this group for movement
+        every_moving_turtle.append(missile)#adds to this group to destroy after level ends
+
         time -= 1
         draw_time_rectangle()
 
@@ -815,14 +935,15 @@ if True:
 
 
     def start(x, y):
-        if game != 'over':
-            if num_levels == 6:
+        if game != 'over':#mainly acts as a while true loop
+            if num_levels == 6:#stops the program from working is something goes horrible wrong
                 event_screen("file_name.txt", 165, 480, wake_up, reject_ending)
 
 
     level_list = []
+
     level_number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    level_x = [-15, 0, -100, -50, 90, -10, -10, -50, 60, 90, 100, -30]
+    level_x = [-15, 0, -100, -50, 90, -10, -10, -50, 60, 90, 100, -30]#coordinates of the level turtles
     level_y= [-15, 0, 300, 90, 280, 50, -200, -30, -100, 300, 25, 315]
     level_locations = ['picture1.png', 'picture2.png', 'picture3.png', 'picture4.png', 'picture5.png', 'picture6.png', 'picture7.png', 'picture8.png', 'picture9.png', 'picture10.png']
     rand_nums = []
@@ -876,7 +997,7 @@ if True:
     explosion.penup()
     stamp_ids = []
 
-    global left_bound
+    global left_bound#limits where an enemy can be placed
     global bottom_bound
     global upward_bound
     left_bound = -400

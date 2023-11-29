@@ -188,7 +188,7 @@ if True:
     #draws the green rectangle representing the grade
     def draw_grade_rectangle():
         global grade
-        time_line = int(1.5*grade)
+        time_line = int(1.6*grade)
         rect_draw_1.setheading(0)
         rect_draw_1.clear()
         rect_draw_1.penup()
@@ -199,11 +199,11 @@ if True:
         rect_draw_1.fillcolor('green')
         rect_draw_1.forward(25)#draws outline
         rect_draw_1.left(90)
-        rect_draw_1.forward(150)
+        rect_draw_1.forward(160)
         rect_draw_1.left(90)
         rect_draw_1.forward(25)
         rect_draw_1.left(90)
-        rect_draw_1.forward(150)
+        rect_draw_1.forward(160)
         rect_draw_1.left(90)
         rect_draw_1.begin_fill()
         rect_draw_1.penup()
@@ -220,7 +220,7 @@ if True:
     #draws the blue rectangle representing the time
     def draw_time_rectangle():
         global time
-        time_line = int(1.5*time)
+        time_line = int(1.6*time)
         rect_draw.setheading(0)
         rect_draw.clear()
         rect_draw.penup()
@@ -231,11 +231,11 @@ if True:
         rect_draw.fillcolor('blue')
         rect_draw.forward(25)#draws outline
         rect_draw.left(90)
-        rect_draw.forward(150)
+        rect_draw.forward(160)
         rect_draw.left(90)
         rect_draw.forward(25)
         rect_draw.left(90)
-        rect_draw.forward(150)
+        rect_draw.forward(160)
         rect_draw.left(90)
         rect_draw.begin_fill()
         rect_draw.penup()
@@ -1050,7 +1050,7 @@ if True:
 
     s = turtle.getscreen()
     s.tracer(False)
-    start(0, 0)
+    death_screen(0,0)
 
 
 

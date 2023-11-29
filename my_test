@@ -54,6 +54,7 @@ if True:
 
     #this is the choice input/screen for the random event
     def random_event_1(x, y):
+        t_text.clear()
         global random_counter
         rand_num = rand_nums[random_counter]
         random_counter += 1#increases the index of the list the pointer is centered on during following run throughs
@@ -62,25 +63,25 @@ if True:
         the_end = 0
         if rand_num <= 5:#slightly faster than just a bunch of elif statements
             if rand_num == 1:
-                event_screen(file_name, 170, 450, rest, play_next_level)
+                event_screen(file_name, 150, 450, rest, play_next_level)
             elif rand_num == 2:
-                event_screen(file_name, 170, 450, eat, play_next_level)
+                event_screen(file_name, 150, 450, eat, play_next_level)
             elif rand_num == 3:
-                event_screen(file_name, 170, 450, walk, play_next_level)
+                event_screen(file_name, 150, 450, walk, play_next_level)
             elif rand_num == 4:
-                event_screen(file_name, 170, 450, nap, play_next_level)
+                event_screen(file_name, 150, 450, nap, play_next_level)
             elif rand_num == 5:
-                event_screen(file_name, 170, 450, music, play_next_level)
+                event_screen(file_name, 150, 450, music, play_next_level)
         elif rand_num > 5:
             
             if rand_num == 6:
-                event_screen(file_name, 170, 450,lofi, play_next_level)
+                event_screen(file_name, 150, 450,lofi, play_next_level)
             elif rand_num == 7:
-                event_screen(file_name, 170, 450, coffee, play_next_level)
+                event_screen(file_name, 150, 450, coffee, play_next_level)
             elif rand_num == 8:
-                event_screen(file_name, 170, 450, office, play_next_level)
+                event_screen(file_name, 150, 450, office, play_next_level)
             elif rand_num == 9:
-                event_screen(file_name, 170, 450, rest, play_next_level)
+                event_screen(file_name, 150, 450, rest, play_next_level)
 
 
 
@@ -187,7 +188,7 @@ if True:
     #draws the green rectangle representing the grade
     def draw_grade_rectangle():
         global grade
-        time_line = int(1.6*grade)
+        time_line = int(1.5*grade)
         rect_draw_1.setheading(0)
         rect_draw_1.clear()
         rect_draw_1.penup()
@@ -198,11 +199,11 @@ if True:
         rect_draw_1.fillcolor('green')
         rect_draw_1.forward(25)#draws outline
         rect_draw_1.left(90)
-        rect_draw_1.forward(160)
+        rect_draw_1.forward(150)
         rect_draw_1.left(90)
         rect_draw_1.forward(25)
         rect_draw_1.left(90)
-        rect_draw_1.forward(160)
+        rect_draw_1.forward(150)
         rect_draw_1.left(90)
         rect_draw_1.begin_fill()
         rect_draw_1.penup()
@@ -219,7 +220,7 @@ if True:
     #draws the blue rectangle representing the time
     def draw_time_rectangle():
         global time
-        time_line = int(1.6*time)
+        time_line = int(1.5*time)
         rect_draw.setheading(0)
         rect_draw.clear()
         rect_draw.penup()
@@ -230,11 +231,11 @@ if True:
         rect_draw.fillcolor('blue')
         rect_draw.forward(25)#draws outline
         rect_draw.left(90)
-        rect_draw.forward(160)
+        rect_draw.forward(150)
         rect_draw.left(90)
         rect_draw.forward(25)
         rect_draw.left(90)
-        rect_draw.forward(160)
+        rect_draw.forward(150)
         rect_draw.left(90)
         rect_draw.begin_fill()
         rect_draw.penup()
@@ -436,11 +437,14 @@ if True:
         t_text.goto(0,120)
         line_list = read_files(file_name)
         t_text.pencolor("white")
+        if len(line_list) > 12:
+            t_text.goto(0, 180)
 
         for i in line_list:
             t_text.write(i, align='center', font=('arial', 17, 'normal'))
             t_text.setheading(270)#faces down
             t_text.forward(19)#exact size to make it seem like a new line
+            
             s.update()
 
         start_button.shapesize(5)
@@ -452,14 +456,13 @@ if True:
         reject_button.showturtle()
 
         s.update()
-        t_text.clear()#avoids promblem later on if it did not clear
+        #t_text.clear()#avoids promblem later on if it did not clear
         reject_button.onclick(function_ending)
         start_button.onclick(function_level)
     
 
     #smae as events function but only has one way to advance
     def info_screen(file_name, col, row, function_level):
-        t_text.clear()
 
         image = 'Campus_Map.png'
         width, height = set_screen(image)
@@ -473,6 +476,9 @@ if True:
 
         line_list = read_files(file_name)
         t_text.pencolor("white")
+        if len(line_list) > 12:
+            t_text.goto(0, 180)
+
 
         for i in line_list:
             t_text.write(i, align='center', font=('arial', 17, 'normal'))
@@ -487,7 +493,7 @@ if True:
         start_button.showturtle()
 
         s.update()
-        t_text.clear()
+        #t_text.clear()
 
         start_button.onclick(function_level)
 
@@ -652,13 +658,13 @@ if True:
         num_levels = 6
         global wake_ups
         wake_ups = 0
-        info_screen('best_end.txt', 100, 500, wake_up)
+        info_screen('best_end.txt', 80, 500, wake_up)
 
     #basic ending
     def reject_ending(x,y):
         clear_intro()
         clear_game()
-        event_screen('reject_ending.txt', 160, 500, wake_up, game_end)
+        event_screen('reject_ending.txt', 130, 500, wake_up, game_end)
 
     #runs if the person in the beginning doesnt decid to wake up
     def never_woke_up(x, y):
@@ -708,7 +714,7 @@ if True:
         wake_ups = 0
 
         file_name = str(random.randint(1, 5)) + '.txt'
-        event_screen(file_name, 170, 450, wake_up, game_end)
+        event_screen(file_name, 120, 450, wake_up, game_end)
 
   
 #runs the levels      

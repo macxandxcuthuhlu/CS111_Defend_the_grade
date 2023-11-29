@@ -37,6 +37,7 @@ if True:
         clear_game()
         clear_intro()
         clear_screen()
+        t_text.clear()
         rand_num = random.randint(1, 9)
         while rand_num in rand_nums:
             rand_num = random.randint(1, 9)
@@ -49,6 +50,8 @@ if True:
         rand_num = rand_nums[random_counter]
         random_counter += 1
         file_name = str(rand_num) + 'e.txt'
+        global the_end
+        the_end = 0
         if rand_num <= 5:
             if rand_num == 1:
                 event_screen(file_name, 170, 450, rest, play_next_level)
@@ -418,10 +421,12 @@ if True:
         start_button.showturtle()
         reject_button.showturtle()
         s.update()
+        t_text.clear()
         reject_button.onclick(function_ending)
         start_button.onclick(function_level)
 
     def info_screen(file_name, col, row, function_level):
+        t_text.clear()
         image = 'Campus_Map.png'
         width, height = set_screen(image)
         s.setup(width,height)
@@ -443,6 +448,7 @@ if True:
         reject_button.penup()
         start_button.showturtle()
         s.update()
+        t_text.clear()
         start_button.onclick(function_level)
 
 
@@ -603,17 +609,18 @@ if True:
         start_button.penup()
         start_button.goto(100, -157)
         start_button.showturtle()
-        start_button.onclick(play_first_level)
+        start_button.onclick(wake_up)
         reject_button.penup()
         reject_button.goto(100, -195)
-        start_button.showturtle()
         reject_button.showturtle()
         reject_button.onclick(death_screen)
         s.update()
+        
 
 
 
     def death_screen(x, y):
+        t_text.clear()
         clear_screen()
         clear_game()
         global num_levels 
@@ -677,9 +684,10 @@ if True:
         global enemy_group
         global bullet_group
         global curr_level
+        global num_levels
         enemy_group = []
         bullet_group = []
-        
+        num_levels -= 1
         clear_screen()
         image_set_up(curr_level)
         draw_mental_health_wall()
@@ -696,14 +704,15 @@ if True:
         global threshold
         global tick_speed
         global the_end
-        enemy_val = 1
+        enemy_val = 7
         move_val = 1
         end_val = 1020
         s.update()
         if the_end == 0:
             for i in stamp_ids:
                 explosion.clearstamp(i)
-            if threshold % end_val == 1000:
+            if threshold % end_val == 1:
+                the_end += 1
                 random_event()
             if grade < 1:
                 death_screen(0, 0)
@@ -729,8 +738,8 @@ if True:
         global bottom_bound
         global upward_bound
 
-        enemy_determination = random.randint(0, 34)
-        if enemy_determination < 8:
+        enemy_determination = random.randint(0, 30)
+        if enemy_determination < 9:
             assignment = turtle.Turtle()
             assignment.shape('assignment.gif')
             assignment.shapesize(5,5,5)

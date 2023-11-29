@@ -627,6 +627,7 @@ if True:
         width, height = set_screen(image)
         s.setup(width,height)
         s.bgpic(image)
+        reject_button.hideturtle()
 
         t_text.hideturtle()
         t_text.penup()
@@ -652,12 +653,11 @@ if True:
     
     #basic ending
     def after_winning(x, y):
-        clear_intro()
-        clear_game
         global num_levels 
         num_levels = 6
         global wake_ups
         wake_ups = 0
+        reject_button.hideturtle()
         info_screen('best_end.txt', 80, 500, wake_up)
 
     #basic ending
@@ -1050,8 +1050,6 @@ if True:
 
     s = turtle.getscreen()
     s.tracer(False)
-    death_screen(0,0)
-
-
+    winning_screen()
 
 turtle.mainloop() 

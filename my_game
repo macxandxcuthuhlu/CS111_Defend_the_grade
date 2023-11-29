@@ -627,6 +627,8 @@ if True:
         width, height = set_screen(image)
         s.setup(width,height)
         s.bgpic(image)
+        clear_intro()
+        clear_screen()
 
         t_text.hideturtle()
         t_text.penup()
@@ -812,7 +814,7 @@ if True:
 
         enemy_val = 7#sets up values that threshold will be modulo byed
         move_val = 1
-        end_val = 2020
+        end_val = 2000
 
         s.update()
         if the_end == 0:#stops the function whil running during ending screens and events
@@ -820,7 +822,7 @@ if True:
             for i in stamp_ids:#clears stamps first incase the nect level starts after this function
                 explosion.clearstamp(i)
 
-            if threshold % end_val == 2000:#ends the level and starts a random event
+            if threshold % end_val == 1999:#ends the level and starts a random event
 
                 the_end += 1
                 random_event()

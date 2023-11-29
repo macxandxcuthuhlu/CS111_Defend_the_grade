@@ -34,9 +34,12 @@ if True:
             event_screen('wake_up.txt', 170, 450, play_first_level, never_woke_up)
 
     def random_event():
-        rand_num = random.randint(1, 10)
+        clear_game()
+        clear_intro()
+        clear_screen()
+        rand_num = random.randint(1, 9)
         while rand_num in rand_nums:
-            rand_num = random.randint(1, 10)
+            rand_num = random.randint(1, 9)
         file_name = str(rand_num) + 'i.txt'
         rand_nums.append(rand_num)
         info_screen(file_name, 170, 450, random_event_1)
@@ -46,14 +49,103 @@ if True:
         rand_num = rand_nums[random_counter]
         random_counter += 1
         file_name = str(rand_num) + 'e.txt'
-        rand_nums.append(rand_num)
-        event_screen(file_name, 170, 450, play_next_level, rest)
+        if rand_num <= 5:
+            if rand_num == 1:
+                event_screen(file_name, 170, 450, rest, play_next_level)
+            elif rand_num == 2:
+                event_screen(file_name, 170, 450, eat, play_next_level)
+            elif rand_num == 3:
+                event_screen(file_name, 170, 450, walk, play_next_level)
+            elif rand_num == 4:
+                event_screen(file_name, 170, 450, nap, play_next_level)
+            elif rand_num == 5:
+                event_screen(file_name, 170, 450, music, play_next_level)
+        elif rand_num > 5:
+            
+            if rand_num == 6:
+                event_screen(file_name, 170, 450,lofi, play_next_level)
+            elif rand_num == 7:
+                event_screen(file_name, 170, 450, coffee, play_next_level)
+            elif rand_num == 8:
+                event_screen(file_name, 170, 450, office, play_next_level)
+            elif rand_num == 9:
+                event_screen(file_name, 170, 450, rest, play_next_level)
+
+
+
 
     def rest(x, y):
         global mental_health 
-        mental_health += 1
+        global time
+        mental_health += 7
+        time -= 5
+        grade += 2 
         play_next_level(0, 0)
 
+    def eat(x, y):
+        global mental_health
+        global time
+        mental_health += 15
+        time -= 8
+        play_next_level(0,0)
+    
+    def walk(x, y):
+        global mental_health
+        global time
+        mental_health += 10
+        time -= 3
+        play_next_level(0, 0)
+    
+    def nap(x, y):
+        global mental_health
+        global num_levels
+        global grade
+        grade -= 10
+        mental_health += 20
+        num_levels -= 1
+        if num_levels > 1:
+            play_first_level(0, 0)
+        else:
+            play_next_level(0, 0)
+    
+    def music(x, y):
+        global mental_health
+        global time
+        mental_health += 8
+        time -= 2
+        play_next_level(0, 0)
+    
+    def lofi(x, y):
+        global mental_health
+        global grade
+        mental_health += 8
+        grade += 2
+        play_next_level(0, 0)
+    
+    def coffee(x, y):
+        global mental_health
+        global time
+        mental_health += 2
+        time += 4
+        play_next_level(0, 0)
+    
+    def office(x, y):
+        global time
+        global mental_health
+        global grade
+        time -= 4
+        mental_health -= 2
+        grade += 8
+        play_next_level(0, 0)
+
+    def study(x, y):
+        global time
+        global mental_health
+        global grade
+        time -= 3
+        mental_health -= 5
+        grade += 6
+        play_next_level(0, 0)
 
 #drawing functions
 if True:
@@ -193,20 +285,6 @@ if True:
 
 #basic helper functions
 if True:
-    def game_end(x, y):
-        global game
-        game = 'over'
-        clear_intro()
-        clear_screen()
-        clear_game()
-        s.bgcolor('black')
-        t_text.clear()
-        t_text.write('Continue')
-        start_button.goto(0, 0)
-        global num_levels 
-        num_levels = 6
-        start_button.onclick(wake_up)
-        s.update()
 
     def out_of_time(x,y):
         time_turt.goto(265, -25)
@@ -351,7 +429,7 @@ if True:
         s.bgpic("grey_campus.png")
         t_text.hideturtle()
         t_text.penup()
-        t_text.goto(0,120)
+        t_text.goto(0,125)
         line_list = read_files(file_name)
         t_text.pencolor("white")
         for i in line_list:
@@ -443,6 +521,29 @@ if True:
 
 
 if True:
+    def game_end(x, y):
+        global game
+        game = 'over'
+        clear_intro()
+        clear_screen()
+        clear_game()
+        image_name = 'Campus_Map.png'
+        make_black(image_name)
+        width, height = set_screen(image_name)
+        s.setup(width,height)
+        s.bgpic('black_campus.png')
+        t_text.clear()
+        t_text.goto(0, 0)
+        t_text.write('Continue?', font=('arial', 28, 'normal'))
+        start_button.goto(0, 0)
+        global num_levels 
+        num_levels = 6
+        start_button.penup()
+        start_button.goto(100, -107)
+        start_button.showturtle()
+        start_button.onclick(wake_up)
+        s.update()
+
     def winning_screen():
         image = 'Celebration.png'
         width, height = set_screen(image)
@@ -603,7 +704,7 @@ if True:
             for i in stamp_ids:
                 explosion.clearstamp(i)
             if threshold % end_val == 1000:
-                play_next_level(0, 0)
+                random_event()
             if grade < 1:
                 death_screen(0, 0)
                 the_end += 1

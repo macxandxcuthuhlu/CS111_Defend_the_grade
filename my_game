@@ -777,7 +777,7 @@ if True:
         def bullet_move():
             counter = 0
             for i in bullet_group:
-                i.forward(4)
+                i.forward(11)
                 if i.xcor() < -600:
                     i.hideturtle()
                     bullet_group.pop(counter)

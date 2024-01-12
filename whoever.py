@@ -129,6 +129,8 @@ def right_algorithm():
 def solve3x3():
     pass
 
+def hi():
+    pass
 
 rubics_cube = []
 rubics_colors = ["blue", "yellow", "white", "red", "green", "orange"]
